@@ -29,6 +29,15 @@
                     fontFamily: {
                         display: ["Playfair Display", "serif"],
                         body: ["Montserrat", "sans-serif"],
+                    },
+                    animation: {
+                        'infinite-scroll': 'infinite-scroll 40s linear infinite',
+                    },
+                    keyframes: {
+                        'infinite-scroll': {
+                            from: { transform: 'translateX(0)' },
+                            to: { transform: 'translateX(-50%)' },
+                        }
                     }
                 },
             },
@@ -47,6 +56,15 @@
         .dark .navbar-scrolled {
             background-color: rgba(12, 12, 12, 0.95);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .review-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            backdrop-filter: blur(8px);
+        }
+        .dark .review-card {
+            background: rgba(255, 255, 255, 0.02);
         }
     </style>
 </head>
@@ -78,8 +96,9 @@
         </div>
         <div class="hidden md:flex space-x-10 items-center font-body text-[10px] uppercase tracking-[0.25em] font-medium nav-text transition-colors duration-500">
             <a class="hover:text-primary transition-colors" href="#">Home</a>
-            <a class="hover:text-primary transition-colors" href="#collections">Collections</a>
+            <a class="hover:text-primary transition-colors" href="#collections">Catalog</a>
             <a class="hover:text-primary transition-colors" href="#about">Story</a>
+            <a class="hover:text-primary transition-colors" href="#reviews">Reviews</a>
             <a class="hover:text-primary transition-colors" href="#contact">Contact</a>
         </div>
         <div class="flex items-center space-x-6 nav-text transition-colors duration-500">
@@ -104,7 +123,7 @@
         <h1 class="font-display text-5xl md:text-8xl text-white leading-tight">Timeless Gifts <br/> <span class="italic font-light">for Every</span> Celebration</h1>
         <p class="text-gray-200 font-body text-lg md:text-xl font-light max-w-2xl mx-auto">Discover the art of gifting with our exclusive collection of luxury home decor and dining essentials.</p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center pt-8">
-            <a href="#collections" class="px-10 py-4 bg-primary text-white font-medium uppercase tracking-widest text-xs hover:bg-primary-dark transition-all transform hover:-translate-y-1">Shop Collection</a>
+            <a href="#collections" class="px-10 py-4 bg-primary text-white font-medium uppercase tracking-widest text-xs hover:bg-primary-dark transition-all transform hover:-translate-y-1">View Catalogs</a>
             <a href="#contact" class="px-10 py-4 bg-transparent text-white border border-white/50 font-medium uppercase tracking-widest text-xs hover:bg-white hover:text-black transition-all transform hover:-translate-y-1">Contact Us</a>
         </div>
     </div>
@@ -136,38 +155,144 @@
     </div>
 </section>
 
+<!-- Updated Collections Section with New Categories -->
 <section class="py-24 bg-surface-light dark:bg-surface-dark" id="collections">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-            <h1 class="font-display text-5xl md:text-7xl mb-4">The Collections</h1>
-            <p class="text-text-muted-light dark:text-text-muted-dark uppercase tracking-[0.3em] text-[10px]">A Curation of Exquisite Taste</p>
+            <h1 class="font-display text-5xl md:text-7xl mb-4">Digital Catalogs</h1>
+            <p class="text-text-muted-light dark:text-text-muted-dark uppercase tracking-[0.3em] text-[10px]">Curation for every milestone</p>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="relative group overflow-hidden h-[600px] cursor-pointer">
-                <img src="https://images.unsplash.com/photo-1612444530582-fc66183b16f7?q=80&w=1000&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
-                <div class="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors"></div>
-                <div class="absolute bottom-0 left-0 p-12 space-y-2">
-                    <h3 class="font-display text-4xl text-white uppercase tracking-wider">Luxury Crockery</h3>
-                    <p class="text-white/80 uppercase tracking-widest text-xs">Fine Dining Essentials</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Catalog 1: Corporate Gifting -->
+            <div class="relative group overflow-hidden h-[450px] cursor-pointer shadow-lg">
+                <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+                <div class="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-colors flex flex-col justify-end p-8">
+                    <h3 class="font-display text-2xl text-white mb-4">Corporate Gifting</h3>
+                    <a href="path-to-corporate.pdf" target="_blank" class="w-fit inline-flex items-center gap-2 px-6 py-2 bg-white text-black text-[10px] font-bold uppercase tracking-widest hover:bg-primary hover:text-white transition-all">
+                        <span class="material-symbols-outlined text-sm">picture_as_pdf</span>
+                        View Catalog
+                    </a>
                 </div>
             </div>
-            <div class="flex flex-col gap-6">
-                <div class="relative group overflow-hidden flex-1 h-[300px]">
-                    <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=1000&auto=format&fit=crop" class="w-full h-full object-cover" />
-                    <div class="absolute inset-0 bg-black/20"></div>
-                    <div class="absolute bottom-0 left-0 p-8">
-                        <h3 class="font-display text-3xl text-white">Gift Sets</h3>
-                    </div>
+
+            <!-- Catalog 2: Festive Specials -->
+            <div class="relative group overflow-hidden h-[450px] cursor-pointer shadow-lg">
+                <img src="https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+                <div class="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-colors flex flex-col justify-end p-8">
+                    <h3 class="font-display text-2xl text-white mb-4">Festive Specials</h3>
+                    <a href="path-to-festive.pdf" target="_blank" class="w-fit inline-flex items-center gap-2 px-6 py-2 bg-white text-black text-[10px] font-bold uppercase tracking-widest hover:bg-primary hover:text-white transition-all">
+                        <span class="material-symbols-outlined text-sm">picture_as_pdf</span>
+                        View Catalog
+                    </a>
                 </div>
-                <div class="relative group overflow-hidden flex-1 h-[300px]">
-                    <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=1000&auto=format&fit=crop" class="w-full h-full object-cover" />
-                    <div class="absolute inset-0 bg-black/20"></div>
-                    <div class="absolute bottom-0 left-0 p-8">
-                        <h3 class="font-display text-3xl text-white">Barware</h3>
-                    </div>
+            </div>
+
+            <!-- Catalog 3: Birthdays -->
+            <div class="relative group overflow-hidden h-[450px] cursor-pointer shadow-lg">
+                <img src="https://images.unsplash.com/photo-1513201099705-a9746e1e201f?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+                <div class="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-colors flex flex-col justify-end p-8">
+                    <h3 class="font-display text-2xl text-white mb-4">Birthday Milestones</h3>
+                    <a href="path-to-birthday.pdf" target="_blank" class="w-fit inline-flex items-center gap-2 px-6 py-2 bg-white text-black text-[10px] font-bold uppercase tracking-widest hover:bg-primary hover:text-white transition-all">
+                        <span class="material-symbols-outlined text-sm">picture_as_pdf</span>
+                        View Catalog
+                    </a>
+                </div>
+            </div>
+
+            <!-- Catalog 4: Weddings -->
+            <div class="relative group overflow-hidden h-[450px] cursor-pointer shadow-lg">
+                <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+                <div class="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-colors flex flex-col justify-end p-8">
+                    <h3 class="font-display text-2xl text-white mb-4">Grand Weddings</h3>
+                    <a href="path-to-weddings.pdf" target="_blank" class="w-fit inline-flex items-center gap-2 px-6 py-2 bg-white text-black text-[10px] font-bold uppercase tracking-widest hover:bg-primary hover:text-white transition-all">
+                        <span class="material-symbols-outlined text-sm">picture_as_pdf</span>
+                        View Catalog
+                    </a>
+                </div>
+            </div>
+
+            <!-- Catalog 5: Anniversary -->
+            <div class="relative group overflow-hidden h-[450px] cursor-pointer shadow-lg">
+                <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+                <div class="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-colors flex flex-col justify-end p-8">
+                    <h3 class="font-display text-2xl text-white mb-4">Timeless Anniversaries</h3>
+                    <a href="path-to-anniversary.pdf" target="_blank" class="w-fit inline-flex items-center gap-2 px-6 py-2 bg-white text-black text-[10px] font-bold uppercase tracking-widest hover:bg-primary hover:text-white transition-all">
+                        <span class="material-symbols-outlined text-sm">picture_as_pdf</span>
+                        View Catalog
+                    </a>
+                </div>
+            </div>
+
+            <!-- Catalog 6: General / Signature -->
+            <div class="relative group overflow-hidden h-[450px] cursor-pointer shadow-lg">
+                <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+                <div class="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-colors flex flex-col justify-end p-8">
+                    <h3 class="font-display text-2xl text-white mb-4">Signature Collection</h3>
+                    <a href="path-to-general.pdf" target="_blank" class="w-fit inline-flex items-center gap-2 px-6 py-2 bg-white text-black text-[10px] font-bold uppercase tracking-widest hover:bg-primary hover:text-white transition-all">
+                        <span class="material-symbols-outlined text-sm">picture_as_pdf</span>
+                        View Catalog
+                    </a>
                 </div>
             </div>
         </div>
+    </div>
+</section>
+
+<!-- Client Reviews Section -->
+<section id="reviews" class="py-24 bg-background-light dark:bg-background-dark overflow-hidden border-t border-primary/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 flex justify-between items-end">
+        <div>
+            <h2 class="font-display text-4xl md:text-5xl">Client <span class="italic">Whispers</span></h2>
+            <p class="text-text-muted-light dark:text-text-muted-dark uppercase tracking-widest text-[10px] mt-2">Kind words from our patrons</p>
+        </div>
+        <div class="hidden md:block">
+            <span class="text-primary material-symbols-outlined text-4xl opacity-30">format_quote</span>
+        </div>
+    </div>
+    
+    <div class="relative flex overflow-x-hidden group">
+        <div class="flex animate-infinite-scroll whitespace-nowrap py-10 gap-8">
+            <script>
+                const reviewData = [
+                    { name: "Ananya Kapoor", text: "The crockery set exceeded every expectation. It's truly heirloom quality.", city: "New Delhi" },
+                    { name: "Vikram Mehta", text: "Elegant packaging and prompt delivery. Perfect for corporate gifting.", city: "Mumbai" },
+                    { name: "Sanya Malhotra", text: "Elevated Living turned my dining room into a luxury lounge.", city: "Bangalore" },
+                    { name: "Rohan Gupta", text: "The barware collection is sophisticated and weighted perfectly.", city: "Gurgaon" },
+                    { name: "Meera Das", text: "Found the most exquisite housewarming gift here. Unique and timeless.", city: "Kolkata" },
+                    { name: "Priya Sharma", text: "Exceptional craftsmanship. You can feel the quality in every piece.", city: "Chandigarh" },
+                    { name: "Arjun Singh", text: "Monika's curation is second to none. A must-visit for home decor lovers.", city: "Jaipur" },
+                    { name: "Kavita Reddy", text: "The attention to detail in the gift sets is absolutely stunning.", city: "Hyderabad" },
+                    { name: "Ishaan Verma", text: "Finally, a luxury brand that understands minimal sophistication.", city: "Pune" },
+                    { name: "Nandini Rao", text: "Every gathering at my home now starts with compliments on the decor.", city: "Chennai" }
+                ];
+
+                const renderReviews = (data) => {
+                    return data.map(review => `
+                        <div class="review-card flex-shrink-0 w-[350px] p-8 rounded-2xl transition-all duration-500 hover:border-primary/50">
+                            <div class="flex gap-1 text-primary mb-4">
+                                ${'<span class="material-symbols-outlined text-sm fill-1">star</span>'.repeat(5)}
+                            </div>
+                            <p class="text-text-light dark:text-text-dark text-sm italic font-light leading-relaxed mb-6 whitespace-normal">
+                                "${review.text}"
+                            </p>
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-px bg-primary/30"></div>
+                                <div>
+                                    <h4 class="font-display text-sm tracking-wide">${review.name}</h4>
+                                    <p class="text-[9px] uppercase tracking-widest text-primary font-bold">${review.city}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                };
+
+                document.write(renderReviews(reviewData));
+                document.write(renderReviews(reviewData));
+            </script>
+        </div>
+        <div class="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-background-light dark:from-background-dark to-transparent z-10"></div>
+        <div class="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-background-light dark:from-background-dark to-transparent z-10"></div>
     </div>
 </section>
 
@@ -187,45 +312,39 @@
                     </div>
                 </div>
                 <p class="text-gray-500 text-sm leading-relaxed font-light mt-4">
-                    Curating timeless elegance for your home and lifestyle.
+                    Curating timeless elegance for your home and lifestyle through thoughtful craftsmanship.
                 </p>
             </div>
             <div>
                 <h4 class="font-display text-xl mb-8 text-primary uppercase tracking-widest text-xs font-bold">Explore</h4>
                 <ul class="space-y-4 text-sm text-gray-500 font-light">
                     <li><a href="#about" class="hover:text-white transition-colors">Our Story</a></li>
-                    <li><a href="#collections" class="hover:text-white transition-colors">Collections</a></li>
+                    <li><a href="#collections" class="hover:text-white transition-colors">Digital Catalogs</a></li>
+                    <li><a href="#reviews" class="hover:text-white transition-colors">Client Reviews</a></li>
                     <li><a href="#contact" class="hover:text-white transition-colors">Contact Us</a></li>
                 </ul>
             </div>
             <div>
                 <h4 class="font-display text-xl mb-8 text-primary uppercase tracking-widest text-xs font-bold">Contact</h4>
                 <ul class="space-y-4 text-sm text-gray-500 font-light">
-                    <li>elevatedliving1477@gmail.com</li>
-                    <li>+91 9810838065</li>
-                    <li>Paramount Golfmart, Greater Noida</li>
+                    <li class="flex items-center gap-3"><span class="material-symbols-outlined text-lg text-primary/50">mail</span> elevatedliving1477@gmail.com</li>
+                    <li class="flex items-center gap-3"><span class="material-symbols-outlined text-lg text-primary/50">call</span> +91 9810838065</li>
+                    <li class="flex items-start gap-3"><span class="material-symbols-outlined text-lg text-primary/50">location_on</span> Paramount Golfmart, Greater Noida</li>
                 </ul>
                 <a href="https://wa.me/919810838065" target="_blank" class="mt-8 inline-flex items-center px-6 py-3 border border-primary/30 text-primary text-[10px] uppercase tracking-widest font-bold hover:bg-primary hover:text-white transition-all">
                     WhatsApp Order
                 </a>
             </div>
             <div>
-                <h4 class="font-display text-xl mb-8 text-primary uppercase tracking-widest text-xs font-bold">Contact</h4>
-                <ul class="space-y-4 text-sm text-gray-500 font-light">
-                    <li class="flex items-center"><span class="material-symbols-outlined text-lg mr-3 text-primary/50">mail</span> elevatedliving1477@gmail.com</li>
-                    <li class="flex items-center"><span class="material-symbols-outlined text-lg mr-3 text-primary/50">call</span> +91 9810838065</li>
-                </ul>
-            </div>
-            <div>
                 <h4 class="font-display text-xl mb-8 text-primary uppercase tracking-widest text-xs font-bold">Social</h4>
                 <div class="flex flex-col space-y-4">
-                    <a href="https://www.instagram.com/elevatedlivingg?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" class="flex items-center text-xs uppercase tracking-widest font-bold text-gray-400 hover:text-primary transition-colors">Instagram</a>
-                    <a href="https://www.facebook.com/share/1EAy3TDZLF/?mibextid=wwXIfr" class="flex items-center text-xs uppercase tracking-widest font-bold text-gray-400 hover:text-primary transition-colors">Facebook</a>
-                    <a href="https://bni-greaternoida.in/greater-noida-bni-ace/en-IN/memberdetails?encryptedMemberId=CWuubNNF4pyFQ%2BmJPcRLVw%3D%3D&cmsv3=true&name=Monika+Srivastava" class="flex items-center text-xs uppercase tracking-widest font-bold text-gray-400 hover:text-primary transition-colors">BNI</a>
+                    <a href="https://www.instagram.com/elevatedlivingg" target="_blank" class="flex items-center text-xs uppercase tracking-widest font-bold text-gray-400 hover:text-primary transition-colors">Instagram</a>
+                    <a href="https://www.facebook.com/share/1EAy3TDZLF/" target="_blank" class="flex items-center text-xs uppercase tracking-widest font-bold text-gray-400 hover:text-primary transition-colors">Facebook</a>
+                    <a href="https://bni-greaternoida.in/greater-noida-bni-ace/en-IN/memberdetails?encryptedMemberId=CWuubNNF4pyFQ%2BmJPcRLVw%3D%3D" target="_blank" class="flex items-center text-xs uppercase tracking-widest font-bold text-gray-400 hover:text-primary transition-colors">BNI Network</a>
                 </div>
             </div>
         </div>
-        <div class="text-[10px] text-gray-600 uppercase tracking-widest font-medium">
+        <div class="text-[10px] text-gray-600 uppercase tracking-widest font-medium flex flex-col md:flex-row justify-between gap-4">
             <p>© 2026 Elevated Living. All rights reserved.</p>
         </div>
     </div>
