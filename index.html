@@ -6,7 +6,9 @@
     <link href="https://fonts.googleapis.com" rel="preconnect"/>
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,200,0,0" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet"/>
+    <!-- Font Awesome for social icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
     <script>
         tailwind.config = {
@@ -31,7 +33,7 @@
                         body: ["Montserrat", "sans-serif"],
                     },
                     animation: {
-                        'infinite-scroll': 'infinite-scroll 40s linear infinite',
+                        'infinite-scroll': 'infinite-scroll 45s linear infinite',
                     },
                     keyframes: {
                         'infinite-scroll': {
@@ -102,11 +104,15 @@
             <a class="hover:text-primary transition-colors" href="#contact">Contact</a>
         </div>
         <div class="flex items-center space-x-6 nav-text transition-colors duration-500">
-            <button class="hover:text-primary transition-colors"><span class="material-symbols-outlined text-xl">search</span></button>
-            <button class="hover:text-primary transition-colors relative">
-                <span class="material-symbols-outlined text-xl">shopping_bag</span>
-                <span class="absolute -top-1 -right-2 bg-primary text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">0</span>
-            </button>
+            <!-- Instagram icon with brand pink hover effect -->
+            <a href="https://www.instagram.com/elevatedlivingg" target="_blank" class="hover:text-[#E4405F] transition-all duration-300 transform hover:scale-110">
+                <i class="fa-brands fa-instagram text-xl"></i>
+            </a>
+            <!-- WhatsApp icon with brand green hover effect -->
+            <a href="https://wa.me/919810838065" target="_blank" class="hover:text-[#25D366] transition-all duration-300 transform hover:scale-110 relative">
+                <i class="fa-brands fa-whatsapp text-xl"></i>
+            </a>
+            <!-- Dark Mode Toggle -->
             <button class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition-colors" onclick="document.documentElement.classList.toggle('dark')">
                 <span class="material-symbols-outlined text-xl">dark_mode</span>
             </button>
@@ -155,7 +161,7 @@
     </div>
 </section>
 
-<!-- Updated Collections Section with New Categories -->
+<!-- Digital Catalogs Section -->
 <section class="py-24 bg-surface-light dark:bg-surface-dark" id="collections">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
@@ -164,7 +170,6 @@
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Catalog 1: Corporate Gifting -->
             <div class="relative group overflow-hidden h-[450px] cursor-pointer shadow-lg">
                 <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
                 <div class="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-colors flex flex-col justify-end p-8">
@@ -176,7 +181,6 @@
                 </div>
             </div>
 
-            <!-- Catalog 2: Festive Specials -->
             <div class="relative group overflow-hidden h-[450px] cursor-pointer shadow-lg">
                 <img src="https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
                 <div class="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-colors flex flex-col justify-end p-8">
@@ -188,7 +192,6 @@
                 </div>
             </div>
 
-            <!-- Catalog 3: Birthdays -->
             <div class="relative group overflow-hidden h-[450px] cursor-pointer shadow-lg">
                 <img src="https://images.unsplash.com/photo-1513201099705-a9746e1e201f?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
                 <div class="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-colors flex flex-col justify-end p-8">
@@ -200,7 +203,6 @@
                 </div>
             </div>
 
-            <!-- Catalog 4: Weddings -->
             <div class="relative group overflow-hidden h-[450px] cursor-pointer shadow-lg">
                 <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
                 <div class="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-colors flex flex-col justify-end p-8">
@@ -212,7 +214,6 @@
                 </div>
             </div>
 
-            <!-- Catalog 5: Anniversary -->
             <div class="relative group overflow-hidden h-[450px] cursor-pointer shadow-lg">
                 <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
                 <div class="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-colors flex flex-col justify-end p-8">
@@ -224,7 +225,6 @@
                 </div>
             </div>
 
-            <!-- Catalog 6: General / Signature -->
             <div class="relative group overflow-hidden h-[450px] cursor-pointer shadow-lg">
                 <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
                 <div class="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-colors flex flex-col justify-end p-8">
@@ -239,15 +239,22 @@
     </div>
 </section>
 
-<!-- Client Reviews Section -->
+<!-- Client Whispers Section -->
 <section id="reviews" class="py-24 bg-background-light dark:bg-background-dark overflow-hidden border-t border-primary/10">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 flex justify-between items-end">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
             <h2 class="font-display text-4xl md:text-5xl">Client <span class="italic">Whispers</span></h2>
-            <p class="text-text-muted-light dark:text-text-muted-dark uppercase tracking-widest text-[10px] mt-2">Kind words from our patrons</p>
+            <p class="text-text-muted-light dark:text-text-muted-dark uppercase tracking-widest text-[10px] mt-2">Verified patron experiences</p>
         </div>
-        <div class="hidden md:block">
-            <span class="text-primary material-symbols-outlined text-4xl opacity-30">format_quote</span>
+        <div class="flex items-center gap-3 bg-primary/5 px-6 py-3 rounded-full border border-primary/10">
+            <div class="flex gap-1">
+                <span class="material-symbols-outlined text-sm text-primary" style="font-variation-settings: 'FILL' 1">star</span>
+                <span class="material-symbols-outlined text-sm text-primary" style="font-variation-settings: 'FILL' 1">star</span>
+                <span class="material-symbols-outlined text-sm text-primary" style="font-variation-settings: 'FILL' 1">star</span>
+                <span class="material-symbols-outlined text-sm text-primary" style="font-variation-settings: 'FILL' 1">star</span>
+                <span class="material-symbols-outlined text-sm text-primary" style="font-variation-settings: 'FILL' 1">star</span>
+            </div>
+            <span class="text-xs font-bold uppercase tracking-widest">4.9/5 Average Rating from 150+ Reviews</span>
         </div>
     </div>
     
@@ -255,36 +262,48 @@
         <div class="flex animate-infinite-scroll whitespace-nowrap py-10 gap-8">
             <script>
                 const reviewData = [
-                    { name: "Ananya Kapoor", text: "The crockery set exceeded every expectation. It's truly heirloom quality.", city: "New Delhi" },
-                    { name: "Vikram Mehta", text: "Elegant packaging and prompt delivery. Perfect for corporate gifting.", city: "Mumbai" },
-                    { name: "Sanya Malhotra", text: "Elevated Living turned my dining room into a luxury lounge.", city: "Bangalore" },
-                    { name: "Rohan Gupta", text: "The barware collection is sophisticated and weighted perfectly.", city: "Gurgaon" },
-                    { name: "Meera Das", text: "Found the most exquisite housewarming gift here. Unique and timeless.", city: "Kolkata" },
-                    { name: "Priya Sharma", text: "Exceptional craftsmanship. You can feel the quality in every piece.", city: "Chandigarh" },
-                    { name: "Arjun Singh", text: "Monika's curation is second to none. A must-visit for home decor lovers.", city: "Jaipur" },
-                    { name: "Kavita Reddy", text: "The attention to detail in the gift sets is absolutely stunning.", city: "Hyderabad" },
-                    { name: "Ishaan Verma", text: "Finally, a luxury brand that understands minimal sophistication.", city: "Pune" },
-                    { name: "Nandini Rao", text: "Every gathering at my home now starts with compliments on the decor.", city: "Chennai" }
+                    { name: "Arnika Sharma", text: "Elevated Living made corporate gifting for Nurses Day completely hassle-free. The gifting solutions were thoughtful and perfectly customized for our requirements.", city: "Noida", rating: 5 },
+                    { name: "Akshay Bajaj", text: "Highly recommended! Monika Ma'am provides gifting solutions that are thoughtful and elegant. The entire experience was customized to perfection.", city: "New Delhi", rating: 5 },
+                    { name: "Ritu Bhatnagar", text: "They've really changed how I shop for celebrations. Whether it's elegant crockery or birthday return gifts for my daughter, I always find something tasteful.", city: "Greater Noida", rating: 4 },
+                    { name: "Ashish Sharma", text: "As the name says, it truly elevates your home and dining experience. Their brass and terracotta goods are beautiful, elegant, and very user-friendly.", city: "Mumbai", rating: 5 },
+                    { name: "Liliy Dhiraj", text: "I consistently have excellent experiences here. It is the best place to find high-quality and unique collections of decor and distinctive gifts.", city: "Delhi", rating: 5 },
+                    { name: "Abhishek Srivastava", text: "Amazing collection of stylish decor and thoughtful gifts. It's the perfect place to find something unique for any special occasion or milestone.", city: "Greater Noida", rating: 4 },
+                    { name: "Shourya Mehta", text: "Got some really cool, top-notch quality products. The founder is super sweet and accommodating. Looking forward to getting more pieces to elevate my home.", city: "Noida", rating: 5 },
+                    { name: "Sagar Srivastava", text: "I was really impressed with the variety in their latest catalogs. The quality of their decor items is great and the prices are very reasonable.", city: "Greater Noida", rating: 5 },
+                    { name: "Shivangi Mahajan", text: "Super amazing products with top-notch quality. I loved the anniversary gifts I got and can't wait to add more beautiful pieces to my home.", city: "Noida", rating: 5 },
+                    { name: "Rajasthan Auto Enterprises", text: "They offer a beautiful range of corporate and personalized gifts. The entire process was seamless and the products were delivered in perfect condition.", city: "Delhi", rating: 5 }
                 ];
 
                 const renderReviews = (data) => {
-                    return data.map(review => `
-                        <div class="review-card flex-shrink-0 w-[350px] p-8 rounded-2xl transition-all duration-500 hover:border-primary/50">
-                            <div class="flex gap-1 text-primary mb-4">
-                                ${'<span class="material-symbols-outlined text-sm fill-1">star</span>'.repeat(5)}
-                            </div>
-                            <p class="text-text-light dark:text-text-dark text-sm italic font-light leading-relaxed mb-6 whitespace-normal">
-                                "${review.text}"
-                            </p>
-                            <div class="flex items-center gap-3">
-                                <div class="w-8 h-px bg-primary/30"></div>
-                                <div>
-                                    <h4 class="font-display text-sm tracking-wide">${review.name}</h4>
-                                    <p class="text-[9px] uppercase tracking-widest text-primary font-bold">${review.city}</p>
+                    return data.map(review => {
+                        let starHtml = '';
+                        const rating = review.rating || 5;
+                        for (let i = 1; i <= 5; i++) {
+                            if (i <= rating) {
+                                starHtml += '<span class="material-symbols-outlined text-sm text-primary" style="font-variation-settings: \'FILL\' 1, \'wght\' 400, \'GRAD\' 0, \'opsz\' 24">star</span>';
+                            } else {
+                                starHtml += '<span class="material-symbols-outlined text-sm text-gray-300" style="font-variation-settings: \'FILL\' 0">star</span>';
+                            }
+                        }
+
+                        return `
+                            <div class="review-card flex-shrink-0 w-[350px] p-8 rounded-2xl transition-all duration-500 hover:border-primary/50">
+                                <div class="flex gap-1 mb-4">
+                                    ${starHtml}
+                                </div>
+                                <p class="text-text-light dark:text-text-dark text-sm italic font-light leading-relaxed mb-6 whitespace-normal">
+                                    "${review.text}"
+                                </p>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-px bg-primary/30"></div>
+                                    <div>
+                                        <h4 class="font-display text-sm tracking-wide">${review.name}</h4>
+                                        <p class="text-[9px] uppercase tracking-widest text-primary font-bold">${review.city}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    `).join('');
+                        `;
+                    }).join('');
                 };
 
                 document.write(renderReviews(reviewData));
