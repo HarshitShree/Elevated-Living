@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html class="scroll-smooth" lang="en">
 <head>
     <meta charset="utf-8"/>
@@ -5,414 +6,1184 @@
     <title>Elevated Living | Luxury Gifting & Home Decor</title>
     <link href="https://fonts.googleapis.com" rel="preconnect"/>
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet"/>
-    <!-- Font Awesome for social icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
-    <script>
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        primary: "#D4AF37",
-                        "primary-dark": "#B5952F",
-                        "primary-light": "#F3E5AB",
-                        "background-light": "#FFFCF7",
-                        "background-dark": "#0C0C0C",
-                        "surface-light": "#FFFFFF",
-                        "surface-dark": "#161616",
-                        "text-light": "#2D2D2D",
-                        "text-dark": "#F0F0F0",
-                        "text-muted-light": "#666666",
-                        "text-muted-dark": "#A0A0A0",
-                    },
-                    fontFamily: {
-                        display: ["Playfair Display", "serif"],
-                        body: ["Montserrat", "sans-serif"],
-                    },
-                    animation: {
-                        'infinite-scroll': 'infinite-scroll 45s linear infinite',
-                    },
-                    keyframes: {
-                        'infinite-scroll': {
-                            from: { transform: 'translateX(0)' },
-                            to: { transform: 'translateX(-50%)' },
-                        }
-                    }
-                },
-            },
-        };
-    </script>
+
     <style>
-        .hide-scrollbar::-webkit-scrollbar { display: none }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none }
-        
-        .navbar-scrolled {
-            background-color: rgba(255, 252, 247, 0.95);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            height: 5rem !important;
-        }
-        .dark .navbar-scrolled {
-            background-color: rgba(12, 12, 12, 0.95);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --gold: #C9A84C;
+            --gold-light: #E8D5A3;
+            --gold-dark: #9A7A30;
+            --cream: #FAF7F2;
+            --cream-deep: #F2EDE4;
+            --ink: #1A1612;
+            --ink-soft: #3D3530;
+            --muted: #8A7E74;
+            --surface: #FFFFFF;
+            --dark-bg: #0E0C0A;
+            --dark-surface: #181410;
+            --dark-muted: #6B6058;
         }
 
-        .review-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(212, 175, 55, 0.1);
-            backdrop-filter: blur(8px);
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Jost', sans-serif;
+            background: var(--cream);
+            color: var(--ink);
+            transition: background 0.4s, color 0.4s;
+            overflow-x: hidden;
         }
-        .dark .review-card {
-            background: rgba(255, 255, 255, 0.02);
+
+        body.dark {
+            background: var(--dark-bg);
+            color: #EDE8E0;
+        }
+
+        /* ── CURSOR ── */
+        .cursor {
+            width: 8px; height: 8px;
+            background: var(--gold);
+            border-radius: 50%;
+            position: fixed; top: 0; left: 0;
+            pointer-events: none; z-index: 9999;
+            transition: transform 0.15s ease;
+            mix-blend-mode: multiply;
+        }
+        body.dark .cursor { mix-blend-mode: screen; }
+        .cursor-ring {
+            width: 36px; height: 36px;
+            border: 1px solid var(--gold);
+            border-radius: 50%;
+            position: fixed; top: 0; left: 0;
+            pointer-events: none; z-index: 9998;
+            transition: transform 0.4s cubic-bezier(0.23,1,0.32,1), width 0.3s, height 0.3s, opacity 0.3s;
+            opacity: 0.6;
+        }
+        .cursor-ring.hovering { width: 56px; height: 56px; opacity: 1; }
+
+        /* ── NAV ── */
+        #main-nav {
+            position: fixed; width: 100%; z-index: 50;
+            transition: all 0.5s cubic-bezier(0.23,1,0.32,1);
+            height: 7rem;
+            display: flex; align-items: center;
+        }
+        #main-nav.scrolled {
+            height: 4.5rem;
+            background: rgba(250, 247, 242, 0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(201,168,76,0.15);
+            box-shadow: 0 4px 40px rgba(0,0,0,0.04);
+        }
+        body.dark #main-nav.scrolled {
+            background: rgba(14,12,10,0.92);
+            border-bottom: 1px solid rgba(201,168,76,0.1);
+        }
+        .nav-inner {
+            max-width: 1400px; margin: 0 auto;
+            padding: 0 2.5rem; width: 100%;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .nav-logo-text {
+            font-family: 'Jost', sans-serif;
+            font-weight: 200;
+            letter-spacing: 0.4em;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            color: white;
+            transition: color 0.5s;
+        }
+        #main-nav.scrolled .nav-logo-text { color: var(--ink); }
+        body.dark #main-nav.scrolled .nav-logo-text { color: #EDE8E0; }
+
+        .nav-links {
+            display: flex; gap: 3rem; list-style: none;
+            font-size: 0.6rem; letter-spacing: 0.3em;
+            text-transform: uppercase; font-weight: 500;
+        }
+        .nav-links a {
+            color: rgba(255,255,255,0.85);
+            text-decoration: none;
+            position: relative;
+            transition: color 0.3s;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute; bottom: -4px; left: 0;
+            width: 0; height: 1px;
+            background: var(--gold);
+            transition: width 0.4s cubic-bezier(0.23,1,0.32,1);
+        }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a:hover { color: var(--gold-light); }
+        #main-nav.scrolled .nav-links a { color: var(--muted); }
+        #main-nav.scrolled .nav-links a:hover { color: var(--gold); }
+        body.dark #main-nav.scrolled .nav-links a { color: #8A7E74; }
+
+        .nav-actions { display: flex; align-items: center; gap: 1.5rem; }
+        .nav-actions a, .nav-actions button {
+            background: none; border: none; cursor: pointer;
+            color: white; font-size: 1.1rem;
+            transition: color 0.3s, transform 0.3s;
+            padding: 0.25rem;
+        }
+        .nav-actions a:hover { transform: scale(1.15); }
+        #main-nav.scrolled .nav-actions a,
+        #main-nav.scrolled .nav-actions button { color: var(--ink); }
+        body.dark #main-nav.scrolled .nav-actions a,
+        body.dark #main-nav.scrolled .nav-actions button { color: #EDE8E0; }
+        .nav-actions a:hover.ig { color: #E4405F; }
+        .nav-actions a:hover.wa { color: #25D366; }
+
+        /* ── HERO ── */
+        #hero {
+            height: 100vh; position: relative;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
+        }
+        .hero-img {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transform: scale(1.08);
+            animation: heroZoom 18s ease-out forwards;
+        }
+        @keyframes heroZoom {
+            to { transform: scale(1); }
+        }
+        .hero-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(10,8,6,0.3) 0%,
+                rgba(10,8,6,0.5) 60%,
+                rgba(10,8,6,0.7) 100%
+            );
+        }
+        .hero-content {
+            position: relative; z-index: 2;
+            text-align: center; max-width: 900px;
+            padding: 0 2rem;
+        }
+        .hero-eyebrow {
+            font-size: 0.6rem; letter-spacing: 0.5em;
+            text-transform: uppercase; color: var(--gold);
+            font-weight: 500;
+            opacity: 0; transform: translateY(20px);
+            animation: fadeUp 0.9s 0.3s cubic-bezier(0.23,1,0.32,1) forwards;
+            display: block; margin-bottom: 1.5rem;
+        }
+        .hero-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3.5rem, 9vw, 8rem);
+            font-weight: 300; line-height: 1.05;
+            color: white; letter-spacing: -0.01em;
+            opacity: 0; transform: translateY(30px);
+            animation: fadeUp 1s 0.55s cubic-bezier(0.23,1,0.32,1) forwards;
+        }
+        .hero-title em {
+            font-style: italic; color: var(--gold-light);
+        }
+        .hero-sub {
+            font-size: 0.85rem; letter-spacing: 0.05em;
+            font-weight: 300; color: rgba(255,255,255,0.7);
+            max-width: 480px; margin: 1.5rem auto 0;
+            line-height: 1.8;
+            opacity: 0; transform: translateY(20px);
+            animation: fadeUp 0.9s 0.8s cubic-bezier(0.23,1,0.32,1) forwards;
+        }
+        .hero-ctas {
+            margin-top: 3rem; display: flex; gap: 1rem;
+            justify-content: center; flex-wrap: wrap;
+            opacity: 0; transform: translateY(20px);
+            animation: fadeUp 0.9s 1s cubic-bezier(0.23,1,0.32,1) forwards;
+        }
+        .btn-primary {
+            padding: 1rem 2.5rem;
+            background: var(--gold);
+            color: var(--ink); font-size: 0.6rem;
+            letter-spacing: 0.3em; text-transform: uppercase;
+            font-weight: 600; text-decoration: none;
+            border: 1px solid var(--gold);
+            transition: all 0.4s cubic-bezier(0.23,1,0.32,1);
+            position: relative; overflow: hidden;
+        }
+        .btn-primary::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: var(--ink);
+            transform: translateX(-101%);
+            transition: transform 0.4s cubic-bezier(0.23,1,0.32,1);
+        }
+        .btn-primary:hover::before { transform: translateX(0); }
+        .btn-primary span { position: relative; z-index: 1; }
+        .btn-primary:hover span { color: white; }
+        .btn-ghost {
+            padding: 1rem 2.5rem;
+            background: transparent;
+            color: white; font-size: 0.6rem;
+            letter-spacing: 0.3em; text-transform: uppercase;
+            font-weight: 500; text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.4);
+            transition: all 0.4s;
+        }
+        .btn-ghost:hover {
+            background: white; color: var(--ink);
+            border-color: white;
+        }
+
+        .hero-scroll {
+            position: absolute; bottom: 2.5rem; left: 50%;
+            transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+            opacity: 0; animation: fadeUp 0.9s 1.4s forwards;
+            z-index: 2;
+        }
+        .hero-scroll span {
+            font-size: 0.5rem; letter-spacing: 0.4em;
+            text-transform: uppercase; color: rgba(255,255,255,0.5);
+        }
+        .scroll-line {
+            width: 1px; height: 48px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.5), transparent);
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 0.3; transform: scaleY(1); }
+            50% { opacity: 1; transform: scaleY(1.1); }
+        }
+
+        /* ── MARQUEE STRIP ── */
+        .marquee-strip {
+            background: var(--gold);
+            padding: 0.9rem 0;
+            overflow: hidden;
+        }
+        .marquee-track {
+            display: flex; gap: 0;
+            animation: marquee 30s linear infinite;
+            width: max-content;
+        }
+        .marquee-item {
+            font-size: 0.55rem; letter-spacing: 0.4em;
+            text-transform: uppercase; font-weight: 600;
+            color: var(--ink); white-space: nowrap;
+            padding: 0 3rem;
+            display: flex; align-items: center; gap: 3rem;
+        }
+        .marquee-item::after {
+            content: '✦';
+            font-size: 0.5rem;
+        }
+        @keyframes marquee {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        /* ── ABOUT ── */
+        #about {
+            padding: 9rem 2.5rem;
+            max-width: 1400px; margin: 0 auto;
+        }
+        .about-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 8rem; align-items: center;
+        }
+        .about-img-wrap {
+            position: relative;
+        }
+        .about-img-frame {
+            position: absolute;
+            top: -1.5rem; left: -1.5rem;
+            width: calc(100% - 2rem); height: calc(100% - 2rem);
+            border: 1px solid var(--gold);
+            opacity: 0.3;
+            transition: all 0.6s;
+        }
+        .about-img-wrap:hover .about-img-frame {
+            top: -2rem; left: -2rem;
+            opacity: 0.6;
+        }
+        .about-img {
+            width: 100%; height: 580px;
+            object-fit: cover;
+            display: block;
+            filter: grayscale(20%);
+            transition: filter 0.6s;
+        }
+        .about-img:hover { filter: grayscale(0%); }
+        .about-badge {
+            position: absolute; bottom: -1.5rem; right: -1.5rem;
+            width: 100px; height: 100px;
+            background: var(--gold);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 0;
+        }
+        .about-badge span:first-child {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem; font-weight: 300;
+            color: var(--ink); line-height: 1;
+        }
+        .about-badge span:last-child {
+            font-size: 0.45rem; letter-spacing: 0.25em;
+            text-transform: uppercase; color: var(--ink-soft);
+            font-weight: 600;
+        }
+        .about-eyebrow {
+            font-size: 0.55rem; letter-spacing: 0.45em;
+            text-transform: uppercase; color: var(--gold);
+            font-weight: 600; margin-bottom: 1.5rem;
+            display: flex; align-items: center; gap: 1rem;
+        }
+        .about-eyebrow::before {
+            content: '';
+            width: 40px; height: 1px;
+            background: var(--gold);
+        }
+        .about-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.5rem, 4vw, 4rem);
+            font-weight: 300; line-height: 1.15;
+            margin-bottom: 2rem;
+        }
+        body.dark .about-title { color: #EDE8E0; }
+        .about-title em { font-style: italic; color: var(--gold); }
+        .about-quote {
+            font-size: 1rem; font-weight: 300;
+            line-height: 1.9; color: var(--muted);
+            border-left: 2px solid var(--gold);
+            padding-left: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+        body.dark .about-quote { color: #8A7E74; }
+        .about-sig-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem; font-weight: 400;
+        }
+        body.dark .about-sig-name { color: #EDE8E0; }
+        .about-sig-title {
+            font-size: 0.55rem; letter-spacing: 0.25em;
+            text-transform: uppercase; color: var(--gold);
+            font-weight: 600; margin-top: 0.25rem;
+        }
+
+        /* ── COLLECTIONS ── */
+        #collections {
+            padding: 9rem 2.5rem;
+            background: var(--ink);
+        }
+        body.dark #collections { background: var(--dark-surface); }
+        .section-header { text-align: center; margin-bottom: 5rem; }
+        .section-eyebrow {
+            font-size: 0.55rem; letter-spacing: 0.45em;
+            text-transform: uppercase; color: var(--gold);
+            font-weight: 600; margin-bottom: 1rem;
+            display: block;
+        }
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.5rem, 5vw, 5rem);
+            font-weight: 300; color: white; line-height: 1.1;
+        }
+        .section-title.light { color: var(--ink); }
+        body.dark .section-title.light { color: #EDE8E0; }
+        .section-sub {
+            font-size: 0.75rem; letter-spacing: 0.15em;
+            color: rgba(255,255,255,0.4); margin-top: 0.75rem;
+            text-transform: uppercase;
+        }
+        .collections-grid {
+            max-width: 1400px; margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+        }
+        .col-card {
+            position: relative; overflow: hidden;
+            height: 480px; cursor: pointer;
+            background: #111;
+        }
+        .col-card:nth-child(1) { grid-column: span 2; }
+        .col-card:nth-child(4) { grid-column: span 2; }
+        .col-img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.9s cubic-bezier(0.23,1,0.32,1), filter 0.6s;
+            filter: brightness(0.75) saturate(0.9);
+        }
+        .col-card:hover .col-img {
+            transform: scale(1.07);
+            filter: brightness(0.55) saturate(1.1);
+        }
+        .col-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 55%);
+            transition: opacity 0.4s;
+        }
+        .col-content {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            padding: 2.5rem;
+            transform: translateY(0);
+            transition: transform 0.5s cubic-bezier(0.23,1,0.32,1);
+        }
+        .col-label {
+            font-size: 0.5rem; letter-spacing: 0.4em;
+            text-transform: uppercase; color: var(--gold);
+            font-weight: 600; margin-bottom: 0.5rem;
+        }
+        .col-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.9rem; font-weight: 300;
+            color: white; line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+        .col-btn {
+            display: inline-flex; align-items: center; gap: 0.6rem;
+            padding: 0.65rem 1.5rem;
+            border: 1px solid rgba(255,255,255,0.4);
+            color: white; text-decoration: none;
+            font-size: 0.5rem; letter-spacing: 0.3em;
+            text-transform: uppercase; font-weight: 600;
+            background: transparent;
+            transition: all 0.4s;
+            opacity: 0; transform: translateY(10px);
+            transition: opacity 0.4s, transform 0.4s, background 0.4s, border-color 0.4s;
+        }
+        .col-card:hover .col-btn {
+            opacity: 1; transform: translateY(0);
+        }
+        .col-btn:hover {
+            background: var(--gold); border-color: var(--gold);
+            color: var(--ink);
+        }
+
+        /* ── STATS ── */
+        .stats-strip {
+            background: var(--cream-deep);
+            padding: 5rem 2.5rem;
+        }
+        body.dark .stats-strip { background: var(--dark-surface); }
+        .stats-grid {
+            max-width: 900px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+        }
+        .stat-item {
+            text-align: center; padding: 3rem 2rem;
+            border-right: 1px solid rgba(201,168,76,0.2);
+        }
+        .stat-item:last-child { border-right: none; }
+        .stat-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 4rem; font-weight: 300;
+            color: var(--gold); line-height: 1;
+        }
+        .stat-label {
+            font-size: 0.55rem; letter-spacing: 0.35em;
+            text-transform: uppercase; color: var(--muted);
+            margin-top: 0.5rem; font-weight: 500;
+        }
+
+        /* ── REVIEWS ── */
+        #reviews {
+            padding: 9rem 0;
+            background: var(--cream);
+            overflow: hidden;
+        }
+        body.dark #reviews { background: var(--dark-bg); }
+        .reviews-header {
+            max-width: 1400px; margin: 0 auto 4rem;
+            padding: 0 2.5rem;
+            display: flex; justify-content: space-between; align-items: flex-end;
+            flex-wrap: wrap; gap: 2rem;
+        }
+        .rating-badge {
+            display: flex; align-items: center; gap: 1rem;
+            border: 1px solid rgba(201,168,76,0.3);
+            padding: 0.75rem 1.5rem;
+            background: rgba(201,168,76,0.04);
+        }
+        .rating-stars { display: flex; gap: 3px; }
+        .star-icon { color: var(--gold); font-size: 0.9rem; }
+        .rating-text {
+            font-size: 0.6rem; letter-spacing: 0.25em;
+            text-transform: uppercase; font-weight: 600;
+        }
+        body.dark .rating-text { color: #EDE8E0; }
+
+        .reviews-track-wrap { position: relative; }
+        .reviews-track-wrap::before,
+        .reviews-track-wrap::after {
+            content: '';
+            position: absolute; top: 0; bottom: 0; width: 10rem; z-index: 2;
+        }
+        .reviews-track-wrap::before {
+            left: 0;
+            background: linear-gradient(to right, var(--cream), transparent);
+        }
+        .reviews-track-wrap::after {
+            right: 0;
+            background: linear-gradient(to left, var(--cream), transparent);
+        }
+        body.dark .reviews-track-wrap::before {
+            background: linear-gradient(to right, var(--dark-bg), transparent);
+        }
+        body.dark .reviews-track-wrap::after {
+            background: linear-gradient(to left, var(--dark-bg), transparent);
+        }
+        .reviews-track {
+            display: flex; gap: 1.5rem; padding: 2rem 0;
+            width: max-content;
+            animation: reviewScroll 55s linear infinite;
+        }
+        .reviews-track:hover { animation-play-state: paused; }
+        @keyframes reviewScroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+        .review-card {
+            flex-shrink: 0; width: 360px;
+            padding: 2.5rem;
+            border: 1px solid rgba(201,168,76,0.15);
+            background: white;
+            transition: border-color 0.4s, transform 0.4s, box-shadow 0.4s;
+        }
+        body.dark .review-card {
+            background: var(--dark-surface);
+            border-color: rgba(201,168,76,0.1);
+        }
+        .review-card:hover {
+            border-color: rgba(201,168,76,0.5);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 60px rgba(201,168,76,0.08);
+        }
+        .review-stars { display: flex; gap: 3px; margin-bottom: 1.2rem; }
+        .review-text {
+            font-size: 0.88rem; font-weight: 300;
+            line-height: 1.85; color: var(--muted);
+            font-style: italic; margin-bottom: 1.5rem;
+        }
+        body.dark .review-text { color: #8A7E74; }
+        .review-divider {
+            width: 30px; height: 1px;
+            background: var(--gold); margin-bottom: 1rem;
+        }
+        .review-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem; font-weight: 400;
+        }
+        body.dark .review-name { color: #EDE8E0; }
+        .review-city {
+            font-size: 0.5rem; letter-spacing: 0.3em;
+            text-transform: uppercase; color: var(--gold);
+            font-weight: 600; margin-top: 0.25rem;
+        }
+
+        /* ── PROCESS ── */
+        #process {
+            padding: 9rem 2.5rem;
+            background: var(--cream-deep);
+        }
+        body.dark #process { background: var(--dark-surface); }
+        .process-grid {
+            max-width: 1100px; margin: 5rem auto 0;
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 0; position: relative;
+        }
+        .process-grid::before {
+            content: '';
+            position: absolute; top: 2rem; left: 12.5%; right: 12.5%;
+            height: 1px; background: rgba(201,168,76,0.25);
+        }
+        .process-step { text-align: center; padding: 0 1.5rem; }
+        .step-num {
+            width: 4rem; height: 4rem;
+            border: 1px solid rgba(201,168,76,0.4);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem; color: var(--gold);
+            background: var(--cream-deep);
+            transition: background 0.4s, border-color 0.4s;
+            position: relative; z-index: 1;
+        }
+        body.dark .step-num { background: var(--dark-surface); }
+        .process-step:hover .step-num {
+            background: var(--gold); color: var(--ink);
+            border-color: var(--gold);
+        }
+        .step-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.15rem; font-weight: 400;
+            margin-bottom: 0.6rem;
+        }
+        body.dark .step-title { color: #EDE8E0; }
+        .step-desc {
+            font-size: 0.78rem; font-weight: 300;
+            line-height: 1.8; color: var(--muted);
+        }
+
+        /* ── FOOTER ── */
+        #contact {
+            background: var(--ink);
+            padding: 7rem 2.5rem 3rem;
+            color: rgba(255,255,255,0.5);
+        }
+        .footer-inner {
+            max-width: 1400px; margin: 0 auto;
+        }
+        .footer-grid {
+            display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 5rem; padding-bottom: 5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 3rem;
+        }
+        .footer-brand-name {
+            font-family: 'Jost', sans-serif;
+            font-weight: 200; letter-spacing: 0.5em;
+            font-size: 0.9rem; color: white;
+            text-transform: uppercase;
+            margin-bottom: 1.2rem; display: block;
+        }
+        .footer-desc {
+            font-size: 0.8rem; font-weight: 300;
+            line-height: 1.9; color: rgba(255,255,255,0.35);
+            max-width: 260px;
+        }
+        .footer-wa {
+            margin-top: 1.5rem;
+            display: inline-flex; align-items: center; gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            border: 1px solid rgba(201,168,76,0.3);
+            color: var(--gold); font-size: 0.55rem;
+            letter-spacing: 0.3em; text-transform: uppercase;
+            font-weight: 600; text-decoration: none;
+            transition: all 0.4s;
+        }
+        .footer-wa:hover {
+            background: var(--gold); color: var(--ink);
+            border-color: var(--gold);
+        }
+        .footer-col h4 {
+            font-size: 0.55rem; letter-spacing: 0.4em;
+            text-transform: uppercase; color: var(--gold);
+            font-weight: 600; margin-bottom: 2rem;
+        }
+        .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+        .footer-col ul li a {
+            color: rgba(255,255,255,0.4); text-decoration: none;
+            font-size: 0.8rem; font-weight: 300;
+            transition: color 0.3s;
+        }
+        .footer-col ul li a:hover { color: white; }
+        .footer-col .contact-item {
+            display: flex; gap: 0.75rem; align-items: flex-start;
+            font-size: 0.78rem; font-weight: 300;
+            color: rgba(255,255,255,0.4); margin-bottom: 0.85rem;
+        }
+        .footer-col .contact-item .material-symbols-outlined {
+            font-size: 1rem; color: rgba(201,168,76,0.5);
+            flex-shrink: 0; margin-top: 1px;
+        }
+        .footer-bottom {
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 1rem;
+            font-size: 0.55rem; letter-spacing: 0.2em;
+            text-transform: uppercase; color: rgba(255,255,255,0.2);
+        }
+        .footer-social { display: flex; gap: 1rem; }
+        .footer-social a {
+            color: rgba(255,255,255,0.3);
+            font-size: 1rem; transition: color 0.3s, transform 0.3s;
+        }
+        .footer-social a:hover { color: var(--gold); transform: scale(1.2); }
+
+        /* ── SCROLL REVEAL ── */
+        .reveal {
+            opacity: 0; transform: translateY(40px);
+            transition: opacity 0.9s cubic-bezier(0.23,1,0.32,1),
+                        transform 0.9s cubic-bezier(0.23,1,0.32,1);
+        }
+        .reveal.visible { opacity: 1; transform: none; }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+
+        /* ── DARK TOGGLE ── */
+        .dark-toggle {
+            background: none; border: none; cursor: pointer;
+            color: inherit;
+        }
+
+        /* ── MOBILE ── */
+        .mobile-menu-btn {
+            display: none; background: none; border: none;
+            color: white; font-size: 1.3rem; cursor: pointer;
+        }
+        #main-nav.scrolled .mobile-menu-btn { color: var(--ink); }
+        body.dark #main-nav.scrolled .mobile-menu-btn { color: #EDE8E0; }
+
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 1024px) {
+            .about-grid { grid-template-columns: 1fr; gap: 4rem; }
+            .about-img { height: 420px; }
+            .collections-grid { grid-template-columns: 1fr 1fr; }
+            .col-card:nth-child(1),
+            .col-card:nth-child(4) { grid-column: span 1; }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 3rem; }
+            .process-grid { grid-template-columns: 1fr 1fr; gap: 3rem; }
+            .process-grid::before { display: none; }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: block; }
+            .collections-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .stat-item { border-right: none; border-bottom: 1px solid rgba(201,168,76,0.2); }
+            .reviews-header { flex-direction: column; align-items: flex-start; }
+            .footer-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+            .hero-title { font-size: clamp(2.8rem, 12vw, 5rem); }
         }
     </style>
 </head>
-<body class="font-body bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark transition-colors duration-300">
+<body>
 
-<nav id="main-nav" class="fixed w-full z-50 transition-all duration-500 h-28 flex items-center bg-transparent">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex justify-between items-center">
-        <div class="flex-shrink-0">
-            <a class="flex flex-col items-center group gap-1" href="#">
-                <!-- Navigation Logo -->
-                <svg width="45" height="40" viewBox="0 0 100 90" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-primary group-hover:scale-105 transition-transform duration-300">
-                    <path d="M10 40 L50 10 L90 40 V80 H10 V40Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
-                    <path d="M5 80 H95" stroke="currentColor" stroke-width="5"/>
-                    <rect x="35" y="25" width="30" height="20" stroke="currentColor" stroke-width="2"/>
-                    <path d="M40 40 L45 35 L50 40 L55 33 L60 40" stroke="currentColor" stroke-width="1"/>
-                    <path d="M25 45 L20 55 H30 L25 45 Z" fill="currentColor"/>
-                    <line x1="25" y1="55" x2="25" y2="75" stroke="currentColor" stroke-width="2"/>
-                    <rect x="42" y="55" width="16" height="15" rx="2" stroke="currentColor" stroke-width="2"/>
-                    <path d="M38 65 H42 V75 H38 Z" stroke="currentColor" stroke-width="2"/>
-                    <path d="M58 65 H62 V75 H58 Z" stroke="currentColor" stroke-width="2"/>
-                    <path d="M75 55 Q70 45 75 40 Q80 45 75 55" fill="currentColor"/>
-                    <path d="M80 50 Q85 40 80 35 Q75 40 80 50" fill="currentColor"/>
-                    <rect x="72" y="65" width="6" height="10" stroke="currentColor" stroke-width="2"/>
-                </svg>
-                <div class="flex flex-col items-center -space-y-1">
-                    <span class="font-body font-bold text-[0.6rem] tracking-[0.3em] uppercase transition-colors duration-500 nav-text">ELEVATED</span>
-                    <span class="font-body font-bold text-[0.6rem] tracking-[0.3em] uppercase transition-colors duration-500 nav-text">LIVING</span>
-                </div>
+<!-- Custom Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<!-- NAV -->
+<nav id="main-nav">
+    <div class="nav-inner">
+        <a href="#" style="text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:2px;">
+            <svg width="36" height="32" viewBox="0 0 100 90" fill="none" xmlns="http://www.w3.org/2000/svg" style="color:var(--gold)">
+                <path d="M10 40 L50 10 L90 40 V80 H10 V40Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+                <path d="M5 80 H95" stroke="currentColor" stroke-width="5"/>
+                <rect x="35" y="25" width="30" height="20" stroke="currentColor" stroke-width="2"/>
+                <path d="M40 40 L45 35 L50 40 L55 33 L60 40" stroke="currentColor" stroke-width="1"/>
+                <rect x="42" y="55" width="16" height="15" rx="2" stroke="currentColor" stroke-width="2"/>
+                <path d="M75 55 Q70 45 75 40 Q80 45 75 55" fill="currentColor"/>
+                <path d="M80 50 Q85 40 80 35 Q75 40 80 50" fill="currentColor"/>
+            </svg>
+            <div class="nav-logo-text" style="line-height:1.4;">ELEVATED<br>LIVING</div>
+        </a>
+
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#collections">Catalog</a></li>
+            <li><a href="#about">Story</a></li>
+            <li><a href="#reviews">Reviews</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+
+        <div class="nav-actions">
+            <a href="https://www.instagram.com/elevatedlivingg" target="_blank" class="ig" title="Instagram">
+                <i class="fa-brands fa-instagram"></i>
             </a>
-        </div>
-        <div class="hidden md:flex space-x-10 items-center font-body text-[10px] uppercase tracking-[0.25em] font-medium nav-text transition-colors duration-500">
-            <a class="hover:text-primary transition-colors" href="#">Home</a>
-            <a class="hover:text-primary transition-colors" href="#collections">Catalog</a>
-            <a class="hover:text-primary transition-colors" href="#about">Story</a>
-            <a class="hover:text-primary transition-colors" href="#reviews">Reviews</a>
-            <a class="hover:text-primary transition-colors" href="#contact">Contact</a>
-        </div>
-        <div class="flex items-center space-x-6 nav-text transition-colors duration-500">
-            <a href="https://www.instagram.com/elevatedlivingg" target="_blank" class="hover:text-[#E4405F] transition-all duration-300 transform hover:scale-110">
-                <i class="fa-brands fa-instagram text-xl"></i>
+            <a href="https://wa.me/919810838065" target="_blank" class="wa" title="WhatsApp">
+                <i class="fa-brands fa-whatsapp"></i>
             </a>
-            <a href="https://wa.me/919810838065" target="_blank" class="hover:text-[#25D366] transition-all duration-300 transform hover:scale-110 relative">
-                <i class="fa-brands fa-whatsapp text-xl"></i>
-            </a>
-            <button class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition-colors" onclick="document.documentElement.classList.toggle('dark')">
-                <span class="material-symbols-outlined text-xl">dark_mode</span>
+            <button class="dark-toggle" onclick="document.body.classList.toggle('dark')" title="Toggle dark mode">
+                <span class="material-symbols-outlined" style="font-size:1.2rem;">dark_mode</span>
+            </button>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <i class="fa-solid fa-bars"></i>
             </button>
         </div>
     </div>
 </nav>
 
-<section class="relative h-screen flex items-center justify-center overflow-hidden">
-    <div class="absolute inset-0">
-        <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=2000&auto=format&fit=crop" class="w-full h-full object-cover scale-105" alt="Hero">
-        <div class="absolute inset-0 bg-black/40 dark:bg-black/60"></div>
-    </div>
-    <div class="relative z-10 text-center px-4 max-w-4xl mx-auto space-y-6">
-        <h1 class="font-display text-5xl md:text-8xl text-white leading-tight">Timeless Gifts <br/> <span class="italic font-light">for Every</span> Celebration</h1>
-        <p class="text-gray-200 font-body text-lg md:text-xl font-light max-w-2xl mx-auto">Discover the art of gifting with our exclusive collection of luxury home decor and dining essentials.</p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center pt-8">
-            <a href="#collections" class="px-10 py-4 bg-primary text-white font-medium uppercase tracking-widest text-xs hover:bg-primary-dark transition-all transform hover:-translate-y-1">View Catalogs</a>
-            <a href="#contact" class="px-10 py-4 bg-transparent text-white border border-white/50 font-medium uppercase tracking-widest text-xs hover:bg-white hover:text-black transition-all transform hover:-translate-y-1">Contact Us</a>
+<!-- HERO -->
+<section id="hero">
+    <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=2000&auto=format&fit=crop" class="hero-img" alt="Luxury interior">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <span class="hero-eyebrow"></span>
+        <h1 class="hero-title">Timeless Gifts<br><em>for Every</em> Celebration</h1>
+        <p class="hero-sub">Discover the art of gifting with our exclusive collection of luxury home decor and dining essentials.</p>
+        <div class="hero-ctas">
+            <a href="#collections" class="btn-primary"><span>View Catalogs</span></a>
+            <a href="#contact" class="btn-ghost">Contact Us</a>
         </div>
+    </div>
+    <div class="hero-scroll">
+        <div class="scroll-line"></div>
+        <span>Scroll</span>
     </div>
 </section>
 
-<section class="py-24 bg-background-light dark:bg-background-dark" id="about">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-            <div class="relative group">
-                <div class="absolute -top-4 -left-4 w-full h-full border-2 border-primary opacity-20 hidden md:block"></div>
-                <div class="relative z-10 overflow-hidden shadow-2xl bg-white transition-colors duration-500">
-                    <img alt="Monika Srivastava, Founder" 
-                         class="w-full h-[600px] object-cover transition-all duration-700 grayscale hover:grayscale-0" 
-                         src="https://i.pinimg.com/736x/7f/d8/b6/7fd8b6102943779dfb4171086bdd80de.jpg"/>
+<!-- MARQUEE -->
+<div class="marquee-strip">
+    <div class="marquee-track" id="marqueeTrack"></div>
+</div>
+
+<!-- ABOUT -->
+<section id="about" style="padding: 9rem 2.5rem;">
+    <div style="max-width:1400px; margin:0 auto;">
+        <div class="about-grid">
+            <div class="about-img-wrap reveal">
+                <div class="about-img-frame"></div>
+                <img class="about-img" src="https://i.pinimg.com/736x/7f/d8/b6/7fd8b6102943779dfb4171086bdd80de.jpg" alt="Monika Srivastava, Founder"/>
+                <div class="about-badge">
+                    <span>2022</span>
+                    <span>Est.</span>
                 </div>
             </div>
-            <div class="space-y-6 text-left">
-                <span class="text-primary font-bold tracking-widest uppercase text-xs">Since 2022</span>
-                <h2 class="font-display text-4xl md:text-6xl leading-tight text-text-light dark:text-text-dark">Crafting spaces with <span class="italic">soul and sophistication</span>.</h2>
-                <p class="text-text-muted-light dark:text-text-muted-dark leading-relaxed font-light text-lg">
+            <div class="reveal reveal-delay-2">
+                <div class="about-eyebrow">Our Story</div>
+                <h2 class="about-title">Crafting spaces with <em>soul</em> and sophistication.</h2>
+                <p class="about-quote">
                     "Elevated Living was born out of a desire to redefine the luxury home experience. We believe that true luxury is not about excess, but about the thoughtful selection of materials and the precision of craftsmanship."
                 </p>
-                <div class="pt-6">
-                    <p class="font-display text-lg text-text-light dark:text-text-dark">Monika Srivastava</p>
-                    <p class="text-[10px] text-primary uppercase tracking-[0.2em] font-bold">Founder & Curator</p>
+                <div>
+                    <p class="about-sig-name">Monika Srivastava</p>
+                    <p class="about-sig-title">Founder & Curator</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Digital Catalogs Section -->
-<section class="py-24 bg-surface-light dark:bg-surface-dark" id="collections">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16">
-            <h1 class="font-display text-5xl md:text-7xl mb-4">Digital Catalogs</h1>
-            <p class="text-text-muted-light dark:text-text-muted-dark uppercase tracking-[0.3em] text-[10px]">Curation for every milestone</p>
+<!-- STATS -->
+<div class="stats-strip">
+    <div class="stats-grid">
+        <div class="stat-item reveal">
+            <div class="stat-num" data-target="180">0</div>
+            <div class="stat-label">Verified Reviews</div>
         </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Corporate Gifting -->
-            <div class="relative group overflow-hidden h-[450px] cursor-pointer shadow-lg rounded-sm">
-                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" alt="Corporate Gifting" />
-                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent group-hover:bg-black/60 transition-all flex flex-col justify-end p-8">
-                    <h3 class="font-display text-2xl text-white mb-2">Corporate Gifting</h3>
-                    <p class="text-gray-300 text-[10px] uppercase tracking-widest mb-4">Executive Presence & Professional Appreciation</p>
-                    <a href="https://drive.google.com/drive/folders/1er5vfEW08pLOvt3Nr_xd41YgF7KXrJf8?usp=sharing" target="_blank" class="w-fit inline-flex items-center gap-2 px-6 py-2 bg-white text-black text-[10px] font-bold uppercase tracking-widest hover:bg-primary hover:text-white transition-all">
-                        <span class="material-symbols-outlined text-sm">picture_as_pdf</span>
-                        View Catalog
-                    </a>
-                </div>
-            </div>
+        <div class="stat-item reveal reveal-delay-2">
+            <div class="stat-num" data-target="4.9">0</div>
+            <div class="stat-label">Average Rating</div>
+        </div>
+        <div class="stat-item reveal reveal-delay-3">
+            <div class="stat-num" data-target="6">0</div>
+            <div class="stat-label">Catalog Collections</div>
+        </div>
+    </div>
+</div>
 
-            <!-- Festive Specials (Updated with Holi Image) -->
-            <div class="relative group overflow-hidden h-[450px] cursor-pointer shadow-lg rounded-sm">
-                <img src="https://i.pinimg.com/1200x/19/a1/cc/19a1cc070cc83733451a8553205aaa72.jpg" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" alt="Festive Specials - Holi" />
-                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent group-hover:bg-black/60 transition-all flex flex-col justify-end p-8">
-                    <h3 class="font-display text-2xl text-white mb-2">Festive Specials</h3>
-                    <p class="text-gray-300 text-[10px] uppercase tracking-widest mb-4">Seasonal Radiance & Joyful Traditions</p>
-                    <a href="https://drive.google.com/drive/folders/1bl9x78HgtUpimpPzw6PTnDHRAocB8V8s?usp=sharing" target="_blank" class="w-fit inline-flex items-center gap-2 px-6 py-2 bg-white text-black text-[10px] font-bold uppercase tracking-widest hover:bg-primary hover:text-white transition-all">
-                        <span class="material-symbols-outlined text-sm">picture_as_pdf</span>
-                        View Catalog
-                    </a>
-                </div>
+<!-- COLLECTIONS -->
+<section id="collections">
+    <div style="max-width:1400px; margin:0 auto; padding:9rem 2.5rem;">
+        <div class="section-header reveal">
+            <span class="section-eyebrow">Our Curation</span>
+            <h2 class="section-title">Digital Catalogs</h2>
+            <p class="section-sub">For every milestone</p>
+        </div>
+    </div>
+    <div class="collections-grid">
+        <div class="col-card reveal">
+            <img class="col-img" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop" alt="Corporate Gifting"/>
+            <div class="col-overlay"></div>
+            <div class="col-content">
+                <p class="col-label">Executive Presence</p>
+                <h3 class="col-title">Corporate Gifting</h3>
+                <a href="https://drive.google.com/drive/folders/1er5vfEW08pLOvt3Nr_xd41YgF7KXrJf8?usp=sharing" target="_blank" class="col-btn">
+                    <span class="material-symbols-outlined" style="font-size:0.9rem;">picture_as_pdf</span>
+                    View Catalog
+                </a>
             </div>
-
-            <!-- Birthday Milestones -->
-            <div class="relative group overflow-hidden h-[450px] cursor-pointer shadow-lg rounded-sm">
-                <img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" alt="Birthday Milestones" />
-                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent group-hover:bg-black/60 transition-all flex flex-col justify-end p-8">
-                    <h3 class="font-display text-2xl text-white mb-2">Birthday Milestones</h3>
-                    <p class="text-gray-300 text-[10px] uppercase tracking-widest mb-4">Celebratory Flair & Personalized Keepsakes</p>
-                    <a href="https://drive.google.com/drive/folders/1p7Wn_TK97AxR0oe-Bl7GRnB0nDQQ3qDz?usp=sharing" target="_blank" class="w-fit inline-flex items-center gap-2 px-6 py-2 bg-white text-black text-[10px] font-bold uppercase tracking-widest hover:bg-primary hover:text-white transition-all">
-                        <span class="material-symbols-outlined text-sm">picture_as_pdf</span>
-                        View Catalog
-                    </a>
-                </div>
+        </div>
+        <div class="col-card reveal reveal-delay-1">
+            <img class="col-img" src="https://i.pinimg.com/1200x/19/a1/cc/19a1cc070cc83733451a8553205aaa72.jpg" alt="Festive Specials"/>
+            <div class="col-overlay"></div>
+            <div class="col-content">
+                <p class="col-label">Seasonal Radiance</p>
+                <h3 class="col-title">Festive Specials</h3>
+                <a href="https://drive.google.com/drive/folders/1bl9x78HgtUpimpPzw6PTnDHRAocB8V8s?usp=sharing" target="_blank" class="col-btn">
+                    <span class="material-symbols-outlined" style="font-size:0.9rem;">picture_as_pdf</span>
+                    View Catalog
+                </a>
             </div>
-
-            <!-- Grand Weddings -->
-            <div class="relative group overflow-hidden h-[450px] cursor-pointer shadow-lg rounded-sm">
-                <img src="https://i.pinimg.com/1200x/41/af/d8/41afd86c24b8743bbcbe1d5a9e538fc6.jpg" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" alt="Grand Weddings" />
-                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent group-hover:bg-black/60 transition-all flex flex-col justify-end p-8">
-                    <h3 class="font-display text-2xl text-white mb-2">Grand Weddings</h3>
-                    <p class="text-gray-300 text-[10px] uppercase tracking-widest mb-4">Opulent Union & Elegant Return Favors</p>
-                    <a href="https://drive.google.com/drive/folders/1RcEBQ5pcoE-w76W7zlfz0Y2ywFtfmvAz?usp=sharing" target="_blank" class="w-fit inline-flex items-center gap-2 px-6 py-2 bg-white text-black text-[10px] font-bold uppercase tracking-widest hover:bg-primary hover:text-white transition-all">
-                        <span class="material-symbols-outlined text-sm">picture_as_pdf</span>
-                        View Catalog
-                    </a>
-                </div>
+        </div>
+        <div class="col-card reveal reveal-delay-2">
+            <img class="col-img" src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?q=80&w=1200&auto=format&fit=crop" alt="Birthday Milestones"/>
+            <div class="col-overlay"></div>
+            <div class="col-content">
+                <p class="col-label">Celebratory Flair</p>
+                <h3 class="col-title">Birthday Milestones</h3>
+                <a href="https://drive.google.com/drive/folders/1p7Wn_TK97AxR0oe-Bl7GRnB0nDQQ3qDz?usp=sharing" target="_blank" class="col-btn">
+                    <span class="material-symbols-outlined" style="font-size:0.9rem;">picture_as_pdf</span>
+                    View Catalog
+                </a>
             </div>
-
-            <!-- Timeless Anniversaries -->
-            <div class="relative group overflow-hidden h-[450px] cursor-pointer shadow-lg rounded-sm">
-                <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" alt="Timeless Anniversaries" />
-                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent group-hover:bg-black/60 transition-all flex flex-col justify-end p-8">
-                    <h3 class="font-display text-2xl text-white mb-2">Timeless Anniversaries</h3>
-                    <p class="text-gray-300 text-[10px] uppercase tracking-widest mb-4">Eternal Bonds & Romantic Mementos</p>
-                    <a href="https://drive.google.com/drive/folders/1RcnBAJu2IPSfSHeX_ckvpMoFa4FXTBn6?usp=sharing" target="_blank" class="w-fit inline-flex items-center gap-2 px-6 py-2 bg-white text-black text-[10px] font-bold uppercase tracking-widest hover:bg-primary hover:text-white transition-all">
-                        <span class="material-symbols-outlined text-sm">picture_as_pdf</span>
-                        View Catalog
-                    </a>
-                </div>
+        </div>
+        <div class="col-card reveal">
+            <img class="col-img" src="https://i.pinimg.com/1200x/41/af/d8/41afd86c24b8743bbcbe1d5a9e538fc6.jpg" alt="Grand Weddings"/>
+            <div class="col-overlay"></div>
+            <div class="col-content">
+                <p class="col-label">Opulent Union</p>
+                <h3 class="col-title">Grand Weddings</h3>
+                <a href="https://drive.google.com/drive/folders/1RcEBQ5pcoE-w76W7zlfz0Y2ywFtfmvAz?usp=sharing" target="_blank" class="col-btn">
+                    <span class="material-symbols-outlined" style="font-size:0.9rem;">picture_as_pdf</span>
+                    View Catalog
+                </a>
             </div>
-
-            <!-- Signature Collection (Updated with Luxury Gifts Image) -->
-            <div class="relative group overflow-hidden h-[450px] cursor-pointer shadow-lg rounded-sm">
-                <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" alt="Signature Collection - Luxury Gifts" />
-                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent group-hover:bg-black/60 transition-all flex flex-col justify-end p-8">
-                    <h3 class="font-display text-2xl text-white mb-2">Signature Collection</h3>
-                    <p class="text-gray-300 text-[10px] uppercase tracking-widest mb-4">Curation for the Discerning Home</p>
-                    <a href="https://drive.google.com/drive/folders/1Wsxfy02Ub7vvAiAHJ_h3WYUNCOVR3FGY?usp=sharing" target="_blank" class="w-fit inline-flex items-center gap-2 px-6 py-2 bg-white text-black text-[10px] font-bold uppercase tracking-widest hover:bg-primary hover:text-white transition-all">
-                        <span class="material-symbols-outlined text-sm">picture_as_pdf</span>
-                        View Catalog
-                    </a>
-                </div>
+        </div>
+        <div class="col-card reveal reveal-delay-1">
+            <img class="col-img" src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop" alt="Timeless Anniversaries"/>
+            <div class="col-overlay"></div>
+            <div class="col-content">
+                <p class="col-label">Eternal Bonds</p>
+                <h3 class="col-title">Timeless Anniversaries</h3>
+                <a href="https://drive.google.com/drive/folders/1RcnBAJu2IPSfSHeX_ckvpMoFa4FXTBn6?usp=sharing" target="_blank" class="col-btn">
+                    <span class="material-symbols-outlined" style="font-size:0.9rem;">picture_as_pdf</span>
+                    View Catalog
+                </a>
+            </div>
+        </div>
+        <div class="col-card reveal reveal-delay-2">
+            <img class="col-img" src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=1200&auto=format&fit=crop" alt="Signature Collection"/>
+            <div class="col-overlay"></div>
+            <div class="col-content">
+                <p class="col-label">Discerning Home</p>
+                <h3 class="col-title">Signature Collection</h3>
+                <a href="https://drive.google.com/drive/folders/1Wsxfy02Ub7vvAiAHJ_h3WYUNCOVR3FGY?usp=sharing" target="_blank" class="col-btn">
+                    <span class="material-symbols-outlined" style="font-size:0.9rem;">picture_as_pdf</span>
+                    View Catalog
+                </a>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Client Whispers Section -->
-<section id="reviews" class="py-24 bg-background-light dark:bg-background-dark overflow-hidden border-t border-primary/10">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <div>
-            <h2 class="font-display text-4xl md:text-5xl">Client <span class="italic">Whispers</span></h2>
-            <p class="text-text-muted-light dark:text-text-muted-dark uppercase tracking-widest text-[10px] mt-2">Verified patron experiences</p>
+<!-- PROCESS -->
+<section id="process">
+    <div style="max-width:1400px; margin:0 auto;">
+        <div class="section-header reveal">
+            <span class="section-eyebrow">How It Works</span>
+            <h2 class="section-title light">The Journey</h2>
+            <p class="section-sub" style="color:var(--muted);">From discovery to doorstep</p>
         </div>
-        <div class="flex items-center gap-3 bg-primary/5 px-6 py-3 rounded-full border border-primary/10">
-            <div class="flex gap-1">
-                <span class="material-symbols-outlined text-sm text-primary" style="font-variation-settings: 'FILL' 1">star</span>
-                <span class="material-symbols-outlined text-sm text-primary" style="font-variation-settings: 'FILL' 1">star</span>
-                <span class="material-symbols-outlined text-sm text-primary" style="font-variation-settings: 'FILL' 1">star</span>
-                <span class="material-symbols-outlined text-sm text-primary" style="font-variation-settings: 'FILL' 1">star</span>
-                <span class="material-symbols-outlined text-sm text-primary" style="font-variation-settings: 'FILL' 1">star</span>
+        <div class="process-grid">
+            <div class="process-step reveal">
+                <div class="step-num">01</div>
+                <h3 class="step-title">Browse Catalogs</h3>
+                <p class="step-desc">Explore our curated digital collections for every occasion and milestone.</p>
             </div>
-            <span class="text-xs font-bold uppercase tracking-widest">4.9/5 Average Rating from 180+ Reviews</span>
+            <div class="process-step reveal reveal-delay-1">
+                <div class="step-num">02</div>
+                <h3 class="step-title">Choose & Customize</h3>
+                <p class="step-desc">Select your preferred items and personalize them to your taste and occasion.</p>
+            </div>
+            <div class="process-step reveal reveal-delay-2">
+                <div class="step-num">03</div>
+                <h3 class="step-title">WhatsApp Order</h3>
+                <p class="step-desc">Place your order seamlessly through WhatsApp for a personal, direct experience.</p>
+            </div>
+            <div class="process-step reveal reveal-delay-3">
+                <div class="step-num">04</div>
+                <h3 class="step-title">Delivered with Care</h3>
+                <p class="step-desc">Receive beautifully curated, thoughtfully packaged gifts delivered to you.</p>
+            </div>
         </div>
-    </div>
-    
-    <div class="relative flex overflow-x-hidden group">
-        <div class="flex animate-infinite-scroll whitespace-nowrap py-10 gap-8">
-            <script>
-                const reviewData = [
-                    { name: "Arnika Sharma", text: "Elevated Living was so helpful when I needed to arrange corporate gifting for Nurses Day at my workplace. The process was completely hassle free and the gifts were perfect.", city: "Noida", rating: 5 },
-                    { name: "Akshay Bajaj", text: "Highly recommended! I had a wonderful experience with Monika Ma'am. Her gifting solutions are thoughtful, elegant, and really customized to perfection.", city: "New Delhi", rating: 5 },
-                    { name: "Ritu Bhatnagar", text: "Truly transformed the way I shop for my home and celebrations. Whether it's the elegant crockery or beautiful return gifts for my daughter's birthday party, I always find something tasteful.", city: "Greater Noida", rating: 4 },
-                    { name: "Ashish Sharma", text: "As the name says, it truly elevates your home and dining experience. Choice of goods are not only beautiful but very user friendly too. Their brass and terracotta items are great.", city: "Mumbai", rating: 5 },
-                    { name: "Liliy Dhiraj", text: "I have consistently had excellent experiences at Elevated Living. It is the best place to find high quality collections of home decor and stylish products for gifts.", city: "Delhi", rating: 5 },
-                    { name: "Abhishek Srivastava", text: "Amazing collection of stylish home decor and thoughtful gifts. It's a perfect place to find something unique and elegant for any space or occasion.", city: "Greater Noida", rating: 4 },
-                    { name: "Shourya Mehta", text: "Got some really cool and top notch quality products. The founder is super sweet and accommodating. Can't wait to get more pieces to elevate my home soon!", city: "Noida", rating: 5 },
-                    { name: "Shivangi Mahajan", text: "Super amazing and cool products with great quality! I loved the anniversary gifts I found and can't wait to add more pieces to my collection.", city: "Noida", rating: 5 },
-                    { name: "Sagar Srivastava", text: "I was really impressed with the variety in their latest catalogs. The quality of their decor items is great and the variety is really amazing.", city: "Greater Noida", rating: 5 },
-                    { name: "Rajasthan Auto Enterprises", text: "They offer a beautiful range of corporate and personalized gifts. The entire process was seamless and the product quality is excellent.", city: "Delhi", rating: 5 }
-                ];
-
-                const renderReviews = (data) => {
-                    return data.map(review => {
-                        let starHtml = '';
-                        const rating = review.rating || 5;
-                        for (let i = 1; i <= 5; i++) {
-                            if (i <= rating) {
-                                starHtml += '<span class="material-symbols-outlined text-sm text-primary" style="font-variation-settings: \'FILL\' 1, \'wght\' 400, \'GRAD\' 0, \'opsz\' 24">star</span>';
-                            } else {
-                                starHtml += '<span class="material-symbols-outlined text-sm text-gray-300" style="font-variation-settings: \'FILL\' 0">star</span>';
-                            }
-                        }
-
-                        return `
-                            <div class="review-card flex-shrink-0 w-[350px] p-8 rounded-2xl transition-all duration-500 hover:border-primary/50">
-                                <div class="flex gap-1 mb-4">
-                                    ${starHtml}
-                                </div>
-                                <p class="text-text-light dark:text-text-dark text-sm italic font-light leading-relaxed mb-6 whitespace-normal">
-                                    "${review.text}"
-                                </p>
-                                <div class="flex items-center gap-3">
-                                    <div class="w-8 h-px bg-primary/30"></div>
-                                    <div>
-                                        <h4 class="font-display text-sm tracking-wide">${review.name}</h4>
-                                        <p class="text-[9px] uppercase tracking-widest text-primary font-bold">${review.city}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    }).join('');
-                };
-
-                document.write(renderReviews(reviewData));
-                document.write(renderReviews(reviewData));
-            </script>
-        </div>
-        <div class="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-background-light dark:from-background-dark to-transparent z-10"></div>
-        <div class="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-background-light dark:from-background-dark to-transparent z-10"></div>
     </div>
 </section>
 
-<footer id="contact" class="bg-[#0A0A0A] text-white pt-24 pb-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-20 border-b border-white/5 pb-20">
-            <div class="space-y-8">
-                <!-- Footer Logo Section Updated -->
-                <div class="flex flex-col items-start gap-4">
-                    <div class="flex flex-col items-center">
-                        <svg width="70" height="70" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-primary">
-                            <!-- House Outline -->
-                            <path d="M20 55 L60 20 L100 55 V100 H20 V55Z" stroke="currentColor" stroke-width="4"/>
-                            <path d="M15 100 H105" stroke="currentColor" stroke-width="5"/>
-                            
-                            <!-- Picture Frame -->
-                            <rect x="50" y="35" width="20" height="15" stroke="currentColor" stroke-width="2"/>
-                            <path d="M53 45 L57 40 L60 43 L63 38 L67 45" stroke="currentColor" stroke-width="1.5"/>
-                            
-                            <!-- Up Arrow -->
-                            <path d="M35 80 V55 M30 60 L35 55 L40 60" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            
-                            <!-- Chair -->
-                            <path d="M52 80 V65 H68 V80 M50 72 H70 M52 80 V90 M68 80 V90" stroke="currentColor" stroke-width="2"/>
-                            
-                            <!-- Leaves/Vase -->
-                            <path d="M85 70 Q80 60 85 50 Q90 60 85 70" fill="currentColor"/>
-                            <path d="M92 65 Q87 55 92 45 Q97 55 92 65" fill="currentColor"/>
-                            <rect x="83" y="72" width="4" height="18" fill="currentColor"/>
-                        </svg>
-                        <div class="mt-4 flex flex-col items-center -space-y-1 text-center">
-                            <span class="font-body font-bold text-[1rem] tracking-[0.3em] uppercase text-white">ELEVATED</span>
-                            <span class="font-body font-bold text-[1rem] tracking-[0.3em] uppercase text-white">LIVING</span>
-                        </div>
-                    </div>
-                </div>
-                <p class="text-gray-500 text-sm leading-relaxed font-light mt-4">
-                    Curating timeless elegance for your home and lifestyle through thoughtful craftsmanship.
-                </p>
+<!-- REVIEWS -->
+<section id="reviews">
+    <div class="reviews-header">
+        <div class="reveal">
+            <span class="section-eyebrow" style="text-align:left; display:block;">Patron Experiences</span>
+            <h2 style="font-family:'Cormorant Garamond',serif; font-size:clamp(2.2rem,4vw,3.5rem); font-weight:300; line-height:1.1;">Client <em style="font-style:italic; color:var(--gold);">Whispers</em></h2>
+        </div>
+        <div class="rating-badge reveal reveal-delay-2">
+            <div class="rating-stars">
+                <span class="star-icon material-symbols-outlined" style="font-variation-settings:'FILL' 1; font-size:1rem;">star</span>
+                <span class="star-icon material-symbols-outlined" style="font-variation-settings:'FILL' 1; font-size:1rem;">star</span>
+                <span class="star-icon material-symbols-outlined" style="font-variation-settings:'FILL' 1; font-size:1rem;">star</span>
+                <span class="star-icon material-symbols-outlined" style="font-variation-settings:'FILL' 1; font-size:1rem;">star</span>
+                <span class="star-icon material-symbols-outlined" style="font-variation-settings:'FILL' 1; font-size:1rem;">star</span>
             </div>
+            <span class="rating-text">4.9/5 &nbsp;·&nbsp; 180+ Reviews</span>
+        </div>
+    </div>
+    <div class="reviews-track-wrap">
+        <div class="reviews-track" id="reviewsTrack"></div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+    <div class="footer-inner">
+        <div class="footer-grid">
             <div>
-                <h4 class="font-display text-xl mb-8 text-primary uppercase tracking-widest text-xs font-bold">Explore</h4>
-                <ul class="space-y-4 text-sm text-gray-500 font-light">
-                    <li><a href="#about" class="hover:text-white transition-colors">Our Story</a></li>
-                    <li><a href="#collections" class="hover:text-white transition-colors">Digital Catalogs</a></li>
-                    <li><a href="#reviews" class="hover:text-white transition-colors">Client Reviews</a></li>
-                    <li><a href="#contact" class="hover:text-white transition-colors">Contact Us</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-display text-xl mb-8 text-primary uppercase tracking-widest text-xs font-bold">Contact</h4>
-                <ul class="space-y-4 text-sm text-gray-500 font-light">
-                    <li class="flex items-center gap-3"><span class="material-symbols-outlined text-lg text-primary/50">mail</span> elevatedliving1477@gmail.com</li>
-                    <li class="flex items-center gap-3"><span class="material-symbols-outlined text-lg text-primary/50">call</span> +91 9810838065</li>
-                    <li class="flex items-start gap-3"><span class="material-symbols-outlined text-lg text-primary/50">location_on</span> Paramount Golfmart, Greater Noida</li>
-                </ul>
-                <a href="https://wa.me/919810838065" target="_blank" class="mt-8 inline-flex items-center px-6 py-3 border border-primary/30 text-primary text-[10px] uppercase tracking-widest font-bold hover:bg-primary hover:text-white transition-all">
+                <span class="footer-brand-name">Elevated Living</span>
+                <p class="footer-desc">Curating timeless elegance for your home and lifestyle through thoughtful craftsmanship and an eye for beauty.</p>
+                <a href="https://wa.me/919810838065" target="_blank" class="footer-wa">
+                    <i class="fa-brands fa-whatsapp"></i>
                     WhatsApp Order
                 </a>
             </div>
-            <div>
-                <h4 class="font-display text-xl mb-8 text-primary uppercase tracking-widest text-xs font-bold">Social</h4>
-                <div class="flex flex-col space-y-4">
-                    <a href="https://www.instagram.com/elevatedlivingg" target="_blank" class="flex items-center text-xs uppercase tracking-widest font-bold text-gray-400 hover:text-primary transition-colors">Instagram</a>
-                    <a href="https://www.facebook.com/share/1EAy3TDZLF/" target="_blank" class="flex items-center text-xs uppercase tracking-widest font-bold text-gray-400 hover:text-primary transition-colors">Facebook</a>
-                    <a href="https://bni-greaternoida.in/greater-noida-bni-ace/en-IN/memberdetails?encryptedMemberId=CWuubNNF4pyFQ%2BmJPcRLVw%3D%3D" target="_blank" class="flex items-center text-xs uppercase tracking-widest font-bold text-gray-400 hover:text-primary transition-colors">BNI Network</a>
+            <div class="footer-col">
+                <h4>Explore</h4>
+                <ul>
+                    <li><a href="#about">Our Story</a></li>
+                    <li><a href="#collections">Digital Catalogs</a></li>
+                    <li><a href="#process">How It Works</a></li>
+                    <li><a href="#reviews">Client Reviews</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <div class="contact-item">
+                    <span class="material-symbols-outlined">mail</span>
+                    elevatedliving1477@gmail.com
+                </div>
+                <div class="contact-item">
+                    <span class="material-symbols-outlined">call</span>
+                    +91 9810838065
+                </div>
+                <div class="contact-item">
+                    <span class="material-symbols-outlined">location_on</span>
+                    Paramount Golfmart, Greater Noida
                 </div>
             </div>
+            <div class="footer-col">
+                <h4>Follow</h4>
+                <ul>
+                    <li><a href="https://www.instagram.com/elevatedlivingg" target="_blank">Instagram</a></li>
+                    <li><a href="https://www.facebook.com/share/1EAy3TDZLF/" target="_blank">Facebook</a></li>
+                    <li><a href="https://bni-greaternoida.in/greater-noida-bni-ace/en-IN/memberdetails?encryptedMemberId=CWuubNNF4pyFQ%2BmJPcRLVw%3D%3D" target="_blank">BNI Network</a></li>
+                </ul>
+            </div>
         </div>
-        <div class="text-[10px] text-gray-600 uppercase tracking-widest font-medium flex flex-col md:flex-row justify-between gap-4">
+        <div class="footer-bottom">
             <p>© 2026 Elevated Living. All rights reserved.</p>
+            <div class="footer-social">
+                <a href="https://www.instagram.com/elevatedlivingg" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://www.facebook.com/share/1EAy3TDZLF/" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+                <a href="https://wa.me/919810838065" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
         </div>
     </div>
 </footer>
 
 <script>
-    const nav = document.getElementById('main-nav');
-    const navTexts = document.querySelectorAll('.nav-text');
-    const updateNav = () => {
-        if (window.scrollY > 80) {
-            nav.classList.add('navbar-scrolled');
-            nav.classList.remove('bg-transparent', 'h-28');
-            navTexts.forEach(el => el.classList.remove('text-white'));
-        } else {
-            nav.classList.remove('navbar-scrolled');
-            nav.classList.add('bg-transparent', 'h-28');
-            navTexts.forEach(el => el.classList.add('text-white'));
+// ── CURSOR
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.transform = `translate(${mx - 4}px, ${my - 4}px)`;
+});
+function animRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.transform = `translate(${rx - 18}px, ${ry - 18}px)`;
+    requestAnimationFrame(animRing);
+}
+animRing();
+document.querySelectorAll('a, button, .col-card').forEach(el => {
+    el.addEventListener('mouseenter', () => ring.classList.add('hovering'));
+    el.addEventListener('mouseleave', () => ring.classList.remove('hovering'));
+});
+
+// ── NAV SCROLL
+const nav = document.getElementById('main-nav');
+window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// ── MARQUEE
+const items = ['Corporate Gifting','Festive Specials','Birthday Milestones','Grand Weddings','Timeless Anniversaries','Signature Collection'];
+const track = document.getElementById('marqueeTrack');
+const full = [...items, ...items, ...items, ...items].map(t => `<span class="marquee-item">${t}</span>`).join('');
+track.innerHTML = full;
+
+// ── REVIEWS
+const reviews = [
+    { name:"Arnika Sharma", city:"Noida", rating:5, text:"Elevated Living was so helpful when I needed to arrange corporate gifting for Nurses Day at my workplace. The process was completely hassle free and the gifts were perfect." },
+    { name:"Akshay Bajaj", city:"New Delhi", rating:5, text:"Highly recommended! I had a wonderful experience with Monika Ma'am. Her gifting solutions are thoughtful, elegant, and really customized to perfection." },
+    { name:"Ritu Bhatnagar", city:"Greater Noida", rating:4, text:"Truly transformed the way I shop for my home and celebrations. Whether it's the elegant crockery or beautiful return gifts, I always find something tasteful." },
+    { name:"Ashish Sharma", city:"Mumbai", rating:5, text:"As the name says, it truly elevates your home and dining experience. Their brass and terracotta items are great. Choice of goods are not only beautiful but very user friendly." },
+    { name:"Liliy Dhiraj", city:"Delhi", rating:5, text:"I have consistently had excellent experiences at Elevated Living. It is the best place to find high quality collections of home decor and stylish products for gifts." },
+    { name:"Abhishek Srivastava", city:"Greater Noida", rating:4, text:"Amazing collection of stylish home decor and thoughtful gifts. A perfect place to find something unique and elegant for any space or occasion." },
+    { name:"Shourya Mehta", city:"Noida", rating:5, text:"Got some really cool and top notch quality products. The founder is super sweet and accommodating. Can't wait to get more pieces to elevate my home!" },
+    { name:"Shivangi Mahajan", city:"Noida", rating:5, text:"Super amazing and cool products with great quality! I loved the anniversary gifts I found and can't wait to add more pieces to my collection." },
+    { name:"Sagar Srivastava", city:"Greater Noida", rating:5, text:"I was really impressed with the variety in their latest catalogs. The quality of their decor items is great and the variety is really amazing." },
+    { name:"Rajasthan Auto Enterprises", city:"Delhi", rating:5, text:"They offer a beautiful range of corporate and personalized gifts. The entire process was seamless and the product quality is excellent." }
+];
+
+function starHTML(r) {
+    return Array.from({length:5}, (_,i) =>
+        `<span class="material-symbols-outlined" style="font-size:0.85rem;color:${i<r?'var(--gold)':'#ddd'};font-variation-settings:'FILL' ${i<r?1:0}">star</span>`
+    ).join('');
+}
+function cardHTML(r) {
+    return `<div class="review-card">
+        <div class="review-stars">${starHTML(r.rating)}</div>
+        <p class="review-text">"${r.text}"</p>
+        <div class="review-divider"></div>
+        <div class="review-name">${r.name}</div>
+        <div class="review-city">${r.city}</div>
+    </div>`;
+}
+const rt = document.getElementById('reviewsTrack');
+const doubled = [...reviews, ...reviews].map(cardHTML).join('');
+rt.innerHTML = doubled;
+
+// ── SCROLL REVEAL
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+    });
+}, { threshold: 0.1 });
+reveals.forEach(el => observer.observe(el));
+
+// ── COUNTER ANIMATION
+function animateCounter(el, target, isDecimal) {
+    const duration = 1800;
+    const start = performance.now();
+    function update(now) {
+        const t = Math.min((now - start) / duration, 1);
+        const ease = 1 - Math.pow(1 - t, 4);
+        const val = ease * target;
+        el.textContent = isDecimal ? val.toFixed(1) : Math.floor(val) + '+';
+        if (t < 1) requestAnimationFrame(update);
+        else el.textContent = isDecimal ? target.toFixed(1) : target + '+';
+    }
+    requestAnimationFrame(update);
+}
+
+const counters = document.querySelectorAll('.stat-num[data-target]');
+const counterObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+        if (e.isIntersecting) {
+            const target = parseFloat(e.target.dataset.target);
+            animateCounter(e.target, target, target % 1 !== 0);
+            counterObs.unobserve(e.target);
         }
-    };
-    window.addEventListener('scroll', updateNav);
-    window.addEventListener('load', updateNav);
+    });
+}, { threshold: 0.5 });
+counters.forEach(c => counterObs.observe(c));
+
+// ── MOBILE MENU (simple toggle)
+function toggleMobileMenu() {
+    const links = document.querySelector('.nav-links');
+    if (!links) return;
+    links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+    links.style.flexDirection = 'column';
+    links.style.position = 'absolute';
+    links.style.top = '100%';
+    links.style.left = '0';
+    links.style.right = '0';
+    links.style.background = 'var(--cream)';
+    links.style.padding = '1.5rem 2.5rem';
+    links.style.gap = '1.5rem';
+    links.style.borderTop = '1px solid rgba(201,168,76,0.2)';
+}
 </script>
 </body>
 </html>
