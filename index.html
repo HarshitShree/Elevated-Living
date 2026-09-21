@@ -148,6 +148,52 @@
         </div>
     </header>
 
+    <!-- Overlay for Slide-outs -->
+    <div id="overlay" onclick="closeAllPanels()" class="fixed inset-0 bg-black/50 z-[60] hidden opacity-0 transition-opacity duration-300"></div>
+
+    <!-- Wishlist Slide-out -->
+    <div id="wishlist-panel" class="fixed top-0 right-0 h-full w-full sm:w-96 bg-white z-[70] transform translate-x-full transition-transform duration-300 shadow-2xl flex flex-col">
+        <div class="flex items-center justify-between p-4 border-b border-gray-100">
+            <h3 class="text-xl font-serif font-bold text-brand-dark flex items-center gap-2">
+                <i class="fa-regular fa-heart text-brand"></i> My Wishlist
+            </h3>
+            <button onclick="toggleWishlist()" class="text-gray-500 hover:text-brand-dark transition p-2">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+        <div id="wishlist-items-container" class="flex-grow overflow-y-auto p-4 space-y-4">
+            <!-- Wishlist items injected here -->
+        </div>
+        <div class="p-4 border-t border-gray-100 bg-gray-50">
+            <button onclick="toggleWishlist()" class="w-full border border-brand-dark text-brand-dark py-3 font-bold uppercase tracking-wider text-sm hover:bg-brand-dark hover:text-white transition">Continue Shopping</button>
+        </div>
+    </div>
+
+    <!-- Cart Slide-out -->
+    <div id="cart-panel" class="fixed top-0 right-0 h-full w-full sm:w-96 bg-white z-[70] transform translate-x-full transition-transform duration-300 shadow-2xl flex flex-col">
+        <div class="flex items-center justify-between p-4 border-b border-gray-100">
+            <h3 class="text-xl font-serif font-bold text-brand-dark flex items-center gap-2">
+                <i class="fa-solid fa-cart-shopping text-brand"></i> Shopping Cart
+            </h3>
+            <button onclick="toggleCart()" class="text-gray-500 hover:text-brand-dark transition p-2">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+        <div id="cart-items-container" class="flex-grow overflow-y-auto p-4 space-y-4">
+            <!-- Cart items injected here -->
+        </div>
+        <div class="p-4 border-t border-gray-100 bg-gray-50 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-gray-600 font-semibold uppercase tracking-wider text-xs">Subtotal</span>
+                <span id="cart-subtotal" class="text-xl font-bold text-brand-dark">₹0</span>
+            </div>
+            <button onclick="checkoutViaWhatsApp()" class="w-full bg-[#25D366] text-white py-3 font-bold uppercase tracking-wider text-sm flex items-center justify-center gap-2 hover:bg-[#128C7E] transition shadow-md rounded-sm">
+                <i class="fa-brands fa-whatsapp text-lg"></i> Checkout via WhatsApp
+            </button>
+            <p class="text-[10px] text-gray-500 text-center mt-3">Finalize order and shipping details directly with us.</p>
+        </div>
+    </div>
+
     <main class="flex-grow">
         
         <!-- ================= HOME PAGE SECTION ================= -->
@@ -655,6 +701,258 @@
         // Format currency helper
         const formatPrice = (price) => `₹${price.toLocaleString('en-IN')}`;
 
+        // --- State Management for Cart & Wishlist ---
+        let cart = [];
+        let wishlist = [];
+
+        // Load state from local storage if available
+        try {
+            const savedCart = localStorage.getItem('el_cart');
+            const savedWishlist = localStorage.getItem('el_wishlist');
+            if (savedCart) cart = JSON.parse(savedCart);
+            if (savedWishlist) wishlist = JSON.parse(savedWishlist);
+        } catch (e) {
+            console.error("Could not load state from local storage", e);
+        }
+
+        function saveState() {
+            localStorage.setItem('el_cart', JSON.stringify(cart));
+            localStorage.setItem('el_wishlist', JSON.stringify(wishlist));
+            updateBadges();
+        }
+
+        // --- UI Interactions ---
+        function toggleCart() {
+            const panel = document.getElementById('cart-panel');
+            const overlay = document.getElementById('overlay');
+            if (panel.classList.contains('translate-x-full')) {
+                // Open
+                panel.classList.remove('translate-x-full');
+                overlay.classList.remove('hidden');
+                setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+                renderCart();
+            } else {
+                // Close
+                panel.classList.add('translate-x-full');
+                overlay.classList.add('opacity-0');
+                setTimeout(() => overlay.classList.add('hidden'), 300);
+            }
+        }
+
+        function toggleWishlist() {
+            const panel = document.getElementById('wishlist-panel');
+            const overlay = document.getElementById('overlay');
+            if (panel.classList.contains('translate-x-full')) {
+                // Open
+                panel.classList.remove('translate-x-full');
+                overlay.classList.remove('hidden');
+                setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+                renderWishlist();
+            } else {
+                // Close
+                panel.classList.add('translate-x-full');
+                overlay.classList.add('opacity-0');
+                setTimeout(() => overlay.classList.add('hidden'), 300);
+            }
+        }
+
+        function closeAllPanels() {
+            document.getElementById('cart-panel').classList.add('translate-x-full');
+            document.getElementById('wishlist-panel').classList.add('translate-x-full');
+            const overlay = document.getElementById('overlay');
+            overlay.classList.add('opacity-0');
+            setTimeout(() => overlay.classList.add('hidden'), 300);
+        }
+
+        // Update header badges
+        function updateBadges() {
+            const cartBadges = document.querySelectorAll('.cart-badge');
+            const wishlistBadges = document.querySelectorAll('.wishlist-badge');
+            
+            const totalCartItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            cartBadges.forEach(badge => {
+                badge.innerText = totalCartItems;
+                badge.style.display = totalCartItems > 0 ? 'flex' : 'none';
+            });
+
+            wishlistBadges.forEach(badge => {
+                badge.innerText = wishlist.length;
+                badge.style.display = wishlist.length > 0 ? 'flex' : 'none';
+            });
+            
+            // Re-render currently viewed grid to update heart states if needed
+            if(currentCategory === 'home') {
+                renderHomeBestsellers();
+            } else {
+                applySortingAndRender();
+            }
+        }
+
+        // --- Cart Logic ---
+        window.addToCart = function(productId, event) {
+            if(event) event.stopPropagation();
+            const product = allProducts.find(p => p.id === productId);
+            if (!product) return;
+
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            saveState();
+            
+            // Provide visual feedback (optional, e.g., brief animation on cart icon)
+            const cartIcon = document.querySelector('.fa-cart-shopping');
+            if(cartIcon) {
+                cartIcon.classList.add('animate-bounce');
+                setTimeout(() => cartIcon.classList.remove('animate-bounce'), 1000);
+            }
+            
+            toggleCart(); // Automatically open cart to show feedback
+        };
+
+        window.updateCartQuantity = function(productId, delta) {
+            const itemIndex = cart.findIndex(item => item.id === productId);
+            if (itemIndex > -1) {
+                cart[itemIndex].quantity += delta;
+                if (cart[itemIndex].quantity <= 0) {
+                    cart.splice(itemIndex, 1);
+                }
+                saveState();
+                renderCart();
+            }
+        };
+
+        window.removeFromCart = function(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            saveState();
+            renderCart();
+        };
+
+        function renderCart() {
+            const container = document.getElementById('cart-items-container');
+            const subtotalEl = document.getElementById('cart-subtotal');
+            
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="flex flex-col items-center justify-center h-full text-gray-400">
+                        <i class="fa-solid fa-cart-shopping text-4xl mb-4 opacity-50"></i>
+                        <p class="font-serif">Your cart is empty.</p>
+                    </div>
+                `;
+                subtotalEl.innerText = formatPrice(0);
+                return;
+            }
+
+            let subtotal = 0;
+            container.innerHTML = cart.map(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                return `
+                    <div class="flex gap-4 p-3 bg-white border border-gray-100 shadow-sm rounded-sm">
+                        <img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded-sm border border-gray-50">
+                        <div class="flex-grow flex flex-col justify-between">
+                            <div>
+                                <h4 class="text-sm font-semibold text-brand-dark line-clamp-2 leading-tight">${item.name}</h4>
+                                <span class="text-brand-dark font-bold text-sm mt-1 block">${formatPrice(item.price)}</span>
+                            </div>
+                            <div class="flex items-center justify-between mt-2">
+                                <div class="flex items-center border border-gray-200 rounded-sm">
+                                    <button onclick="updateCartQuantity(${item.id}, -1)" class="px-2 py-1 text-gray-500 hover:bg-gray-50 hover:text-brand-dark transition">-</button>
+                                    <span class="px-2 text-xs font-semibold text-gray-700 min-w-[20px] text-center">${item.quantity}</span>
+                                    <button onclick="updateCartQuantity(${item.id}, 1)" class="px-2 py-1 text-gray-500 hover:bg-gray-50 hover:text-brand-dark transition">+</button>
+                                </div>
+                                <button onclick="removeFromCart(${item.id})" class="text-red-400 hover:text-red-600 transition text-xs flex items-center gap-1">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            subtotalEl.innerText = formatPrice(subtotal);
+        }
+
+        window.checkoutViaWhatsApp = function() {
+            if (cart.length === 0) {
+                alert("Your cart is empty!");
+                return;
+            }
+
+            let message = "Hello Elevated Living! I would like to place an order for the following items:\n\n";
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                message += `${index + 1}. ${item.name}\n`;
+                message += `   Qty: ${item.quantity} x ₹${item.price} = ₹${itemTotal}\n\n`;
+            });
+
+            message += `*Total Order Value: ₹${total}*\n\n`;
+            message += "Please let me know the payment options and delivery details.";
+
+            const encodedMessage = encodeURIComponent(message);
+            const phoneNumber = "919810838065"; 
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+            
+            window.open(whatsappUrl, '_blank');
+        };
+
+        // --- Wishlist Logic ---
+        window.toggleWishlistItem = function(productId, event) {
+            if(event) event.stopPropagation();
+            
+            const index = wishlist.findIndex(id => id === productId);
+            if (index > -1) {
+                wishlist.splice(index, 1);
+            } else {
+                wishlist.push(productId);
+            }
+            saveState();
+            
+            // Re-render open wishlist panel if necessary
+            const panel = document.getElementById('wishlist-panel');
+            if(!panel.classList.contains('translate-x-full')) {
+                renderWishlist();
+            }
+        };
+
+        function renderWishlist() {
+            const container = document.getElementById('wishlist-items-container');
+            
+            if (wishlist.length === 0) {
+                container.innerHTML = `
+                    <div class="flex flex-col items-center justify-center h-full text-gray-400">
+                        <i class="fa-regular fa-heart text-4xl mb-4 opacity-50"></i>
+                        <p class="font-serif">Your wishlist is empty.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const wishlistItems = wishlist.map(id => allProducts.find(p => p.id === id)).filter(Boolean);
+
+            container.innerHTML = wishlistItems.map(item => `
+                <div class="flex gap-4 p-3 bg-white border border-gray-100 shadow-sm rounded-sm">
+                    <img src="${item.image}" alt="${item.name}" class="w-24 h-24 object-cover rounded-sm border border-gray-50">
+                    <div class="flex-grow flex flex-col">
+                        <h4 class="text-sm font-semibold text-brand-dark line-clamp-2">${item.name}</h4>
+                        <span class="text-brand-dark font-bold text-sm mt-1 block">${formatPrice(item.price)}</span>
+                        <div class="mt-auto pt-3 flex gap-2">
+                            <button onclick="addToCart(${item.id}); toggleWishlistItem(${item.id});" class="flex-grow bg-brand-dark text-white text-[10px] font-bold uppercase tracking-wider py-2 hover:bg-brand transition">Add to Cart</button>
+                            <button onclick="toggleWishlistItem(${item.id})" class="w-10 flex items-center justify-center border border-gray-200 text-gray-400 hover:text-red-500 hover:border-red-200 transition">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
         // Render a single product card
         function createProductCardHTML(product) {
             const badgeHtml = product.discount ? 
@@ -663,14 +961,26 @@
             
             const originalPriceHtml = product.originalPrice ? `<span class="text-gray-400 text-sm line-through ml-2">${formatPrice(product.originalPrice)}</span>` : '';
 
+            const isWishlisted = wishlist.includes(product.id);
+            const heartClass = isWishlisted ? 'fa-solid text-red-500' : 'fa-regular text-gray-600 hover:text-red-500';
+
             return `
-                <div class="product-card group cursor-pointer flex flex-col h-full bg-white border border-gray-100 rounded-sm overflow-hidden">
+                <div class="product-card group cursor-pointer flex flex-col h-full bg-white border border-gray-100 rounded-sm overflow-hidden relative">
+                    
+                    <!-- Wishlist Button -->
+                    <button onclick="toggleWishlistItem(${product.id}, event)" class="absolute top-3 right-3 z-20 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center shadow-sm hover:scale-110 transition-transform">
+                        <i class="${heartClass} fa-heart text-sm transition-colors"></i>
+                    </button>
+
                     <div class="relative h-64 sm:h-72 overflow-hidden bg-gray-50">
                         ${badgeHtml}
                         <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                        <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex justify-end">
-                            <button class="bg-brand hover:bg-white text-brand-dark w-10 h-10 rounded-full flex items-center justify-center transition-colors shadow-lg">
-                                <i class="fa-solid fa-cart-plus"></i>
+                        <div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        
+                        <!-- Quick Add Button Overlay -->
+                        <div class="absolute bottom-4 left-0 right-0 px-4 flex justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0">
+                            <button onclick="addToCart(${product.id}, event)" class="w-full bg-brand hover:bg-white text-brand-dark py-2.5 font-bold uppercase tracking-widest text-xs shadow-lg transition-colors flex items-center justify-center gap-2 rounded-sm">
+                                <i class="fa-solid fa-cart-plus"></i> Add to Cart
                             </button>
                         </div>
                     </div>
@@ -925,6 +1235,25 @@
             renderHomeBestsellers();
             // Start on home page
             navigate('home');
+            
+            // Initialize header badges
+            const navRightActions = document.querySelector('.flex.items-center.gap-5.sm\\:gap-6');
+            if (navRightActions) {
+                // Update header HTML to include proper badge classes and onclick handlers
+                navRightActions.innerHTML = `
+                    <a href="#" onclick="toggleWishlist(); return false;" class="flex flex-col items-center hover:text-brand-dark transition relative">
+                        <i class="fa-regular fa-heart text-xl mb-1"></i>
+                        <span class="text-[10px] hidden sm:block uppercase tracking-wider font-semibold">Wishlist</span>
+                        <span class="wishlist-badge absolute -top-1 -right-2 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full flex items-center justify-center" style="display: none; min-width: 18px; height: 18px;">0</span>
+                    </a>
+                    <a href="#" onclick="toggleCart(); return false;" class="flex flex-col items-center hover:text-brand-dark transition relative">
+                        <i class="fa-solid fa-cart-shopping text-xl mb-1"></i>
+                        <span class="text-[10px] hidden sm:block uppercase tracking-wider font-semibold">Cart</span>
+                        <span class="cart-badge absolute -top-1 -right-2 bg-brand text-brand-dark text-[10px] font-bold px-1.5 py-0.5 rounded-full flex items-center justify-center" style="display: none; min-width: 18px; height: 18px;">0</span>
+                    </a>
+                `;
+            }
+            updateBadges();
         };
     </script>
 </body>
